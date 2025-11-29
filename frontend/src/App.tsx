@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BrowserRouter, Link, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router-dom';
 
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { Sidebar } from '@/components/sidebar/Sidebar';
@@ -12,19 +12,8 @@ function AppShell() {
   const productsRaw = useProductsStore((s) => s.products);
   const products = productsRaw ?? [];
   const hasData = (Array.isArray(products) ? products.length : 0) > 0;
-  const location = useLocation();
-  const navigate = useNavigate();
+  const loading = useProductsStore((s) => s.loading);
 
-  React.useEffect(() => {
-    if (!hasData) return;
-    if (location.pathname !== '/') return;
-    const first = productsRaw?.[0];
-    if (first) {
-      const firstVar = first.variants?.[0]?.id;
-      const to = `/product/${first.id}${firstVar ? `?card=${encodeURIComponent(firstVar)}` : ''}`;
-      navigate(to, { replace: true });
-    }
-  }, [hasData, location.pathname, navigate, productsRaw]);
 
   return (
     <SidebarProvider>
@@ -51,11 +40,11 @@ function AppShell() {
               <Route path="/" element={<MainPage />} />
               <Route
                 path="/product/:id"
-                element={hasData ? <ProductPage /> : <Navigate to="/" replace />}
+                element={hasData || loading ? <ProductPage /> : <Navigate to="/" replace />}
               />
               <Route
                 path="/create"
-                element={hasData ? <CreateProduct /> : <Navigate to="/" replace />}
+                element={hasData || loading ? <CreateProduct /> : <Navigate to="/" replace />}
               />
               {/* Catch-all */}
               <Route path="*" element={<Navigate to="/" replace />} />

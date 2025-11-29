@@ -1,4 +1,5 @@
 import { apiClient } from './api';
+import { PATHS } from '@/config/paths';
 
 export async function uploadFile(
   file: File,
@@ -8,7 +9,7 @@ export async function uploadFile(
   const form = new FormData();
   form.append('file', file);
 
-  const { data } = await apiClient.post<{ taskId: string }>('/upload', form, {
+  const { data } = await apiClient.post<{ taskId: string }>(PATHS.upload, form, {
     headers: { 'Content-Type': 'multipart/form-data' },
     signal,
     onUploadProgress: (evt) => {
@@ -27,10 +28,9 @@ export async function pollProcessing(
   signal?: AbortSignal,
 ): Promise<{ done: boolean }> {
   // Optional polling endpoint if backend supports it
-  const { data } = await apiClient.get<{ done: boolean; progress?: number }>(
-    `/upload/status/${taskId}`,
-    { signal },
-  );
+  const { data } = await apiClient.get<{ done: boolean; progress?: number }>(PATHS.uploadStatus(taskId), {
+    signal,
+  });
   if (onProgress && typeof data.progress === 'number') {
     onProgress(data.progress);
   }

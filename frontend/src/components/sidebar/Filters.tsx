@@ -12,16 +12,19 @@ import { useProductsStore } from '@/hooks/use-products-store';
 export function Filters() {
   const setQuery = useProductsStore((s) => s.setQuery);
   const fetchProducts = useProductsStore((s) => s.fetchProducts);
+  const storeQuery = useProductsStore((s) => s.query);
 
-  const [localQuery, setLocalQuery] = React.useState('');
+  const [localQuery, setLocalQuery] = React.useState(storeQuery);
 
   React.useEffect(() => {
     const id = setTimeout(() => {
-      setQuery(localQuery);
-      void fetchProducts(true);
+      if (localQuery !== storeQuery) {
+        setQuery(localQuery);
+        void fetchProducts(true);
+      }
     }, 350);
     return () => clearTimeout(id);
-  }, [localQuery, setQuery, fetchProducts]);
+  }, [localQuery, storeQuery, setQuery, fetchProducts]);
 
   // Minimal filters placeholder; extend as backend supports
   return (

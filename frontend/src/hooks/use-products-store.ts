@@ -63,7 +63,8 @@ export const useProductsStore = create<ProductsState>()((set, get) => ({
 
   async fetchProducts(reset = false) {
     const state = get();
-    set({ loading: true, ...(reset ? { page: 1, products: [] } : {}) });
+    // Do not clear products immediately on reset to avoid hasData -> false flicker
+    set({ loading: true, ...(reset ? { page: 1 } : {}) });
     const res: PagedResult<ProductGroup> = await apiGetProducts({
       ...(state.filters || {}),
       query: state.query || undefined,

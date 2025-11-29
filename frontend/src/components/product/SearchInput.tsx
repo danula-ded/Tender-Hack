@@ -8,16 +8,19 @@ export function SearchInput() {
   const setQuery = useProductsStore((s) => s.setQuery);
   const fetchProducts = useProductsStore((s) => s.fetchProducts);
   const createProduct = useProductsStore((s) => s.createProduct);
+  const storeQuery = useProductsStore((s) => s.query);
 
-  const [value, setValue] = React.useState('');
+  const [value, setValue] = React.useState(storeQuery);
 
   React.useEffect(() => {
     const id = setTimeout(() => {
-      setQuery(value);
-      void fetchProducts(true);
+      if (value !== storeQuery) {
+        setQuery(value);
+        void fetchProducts(true);
+      }
     }, 350);
     return () => clearTimeout(id);
-  }, [value, setQuery, fetchProducts]);
+  }, [value, storeQuery, setQuery, fetchProducts]);
 
   const onCreate = async () => {
     const created = await createProduct({ title: 'Новая карточка' });

@@ -47,7 +47,7 @@ export default function MainPage() {
           open={askAgg}
           onOpenChange={setAskAgg}
           title="Данные агрегированы?"
-          description="Если данные уже агрегированы по группам, мы улучшим распределение карточек."
+          description="Если данные не обработаны, то мы улучшим распределение карточек."
           confirmLabel="Да"
           cancelLabel="Нет"
           confirmVariant="default"

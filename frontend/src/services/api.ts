@@ -1,4 +1,4 @@
-import axios, { type AxiosInstance } from 'axios';
+import axios from 'axios';
 
 import type {
   CreateProductPayload,
@@ -7,31 +7,33 @@ import type {
   ProductGroup,
   UpdateProductPayload,
 } from '@/types/product';
+import { PATHS } from '@/config/paths';
 
-const baseURL = import.meta.env?.VITE_API_URL || '/api';
-
-const apiClient: AxiosInstance = axios.create({
-  baseURL,
-  withCredentials: true,
-});
+const apiClient = axios.create({ withCredentials: true });
 
 export async function getProducts(
   filters: ProductFilters & { page: number; pageSize: number },
 ): Promise<PagedResult<ProductGroup>> {
-  const { page, pageSize, ...rest } = filters;
-  const { data } = await apiClient.get<PagedResult<ProductGroup>>('/products', {
-    params: { ...rest, page, pageSize },
+  const { page, pageSize, query, ...rest } = filters as ProductFilters & {
+    page: number;
+    pageSize: number;
+    query?: string;
+  };
+  const limit = pageSize;
+  const offset = (page - 1) * pageSize;
+  const { data } = await apiClient.get<PagedResult<ProductGroup>>(PATHS.products.list, {
+    params: { q: query, limit, offset, ...rest },
   });
   return data;
 }
 
 export async function getProduct(id: string): Promise<ProductGroup> {
-  const { data } = await apiClient.get<ProductGroup>(`/products/${id}`);
+  const { data } = await apiClient.get<ProductGroup>(PATHS.products.get(id));
   return data;
 }
 
 export async function createProduct(payload: CreateProductPayload): Promise<ProductGroup> {
-  const { data } = await apiClient.post<ProductGroup>('/products', payload);
+  const { data } = await apiClient.post<ProductGroup>(PATHS.products.list, payload);
   return data;
 }
 
@@ -39,22 +41,23 @@ export async function updateProduct(
   id: string,
   payload: UpdateProductPayload,
 ): Promise<ProductGroup> {
-  const { data } = await apiClient.put<ProductGroup>(`/products/${id}`, payload);
+  const { data } = await apiClient.put<ProductGroup>(PATHS.products.update(id), payload);
   return data;
 }
 
 export async function deleteProduct(id: string): Promise<{ success: true }> {
-  const { data } = await apiClient.delete<{ success: true }>(`/products/${id}`);
+  const { data } = await apiClient.delete<{ success: true }>(PATHS.products.delete(id));
   return data;
 }
 
 export async function uploadFile(
   file: File,
   onProgress?: (percent: number) => void,
-): Promise<{ taskId: string }> {
+): Promise<{ taskId: string }>
+{
   const form = new FormData();
   form.append('file', file);
-  const { data } = await apiClient.post<{ taskId: string }>('/upload', form, {
+  const { data } = await apiClient.post<{ taskId: string }>(PATHS.upload, form, {
     headers: { 'Content-Type': 'multipart/form-data' },
     onUploadProgress: (evt) => {
       if (!onProgress || !evt.total) return;
@@ -68,7 +71,7 @@ export async function uploadFile(
 export { apiClient };
 
 export async function fetchAggregated(fileId?: string): Promise<Blob> {
-  const res = await apiClient.get('/aggregated/download', {
+  const res = await apiClient.get(PATHS.aggregated.download, {
     params: fileId ? { fileId } : undefined,
     responseType: 'blob',
   });
