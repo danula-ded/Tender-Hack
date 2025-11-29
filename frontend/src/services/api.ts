@@ -66,3 +66,11 @@ export async function uploadFile(
 }
 
 export { apiClient };
+
+export async function fetchAggregated(fileId?: string): Promise<Blob> {
+  const res = await apiClient.get('/aggregated/download', {
+    params: fileId ? { fileId } : undefined,
+    responseType: 'blob',
+  });
+  return res.data as Blob;
+}

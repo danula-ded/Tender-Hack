@@ -9,6 +9,7 @@ import {
 import { Filters } from '@/components/sidebar/Filters';
 import { SidebarItem } from '@/components/sidebar/SidebarItem';
 import { useProductsStore } from '@/hooks/use-products-store';
+import { FileSwitcher } from '@/components/sidebar/FileSwitcher';
 
 export function Sidebar() {
   const productsRaw = useProductsStore((s) => s.products);
@@ -17,6 +18,7 @@ export function Sidebar() {
   return (
     <UISidebar>
       <SidebarHeader>
+        <FileSwitcher />
         <div className="px-2 py-1.5 text-sm font-semibold">Категории/Группы</div>
       </SidebarHeader>
       <SidebarContent>
