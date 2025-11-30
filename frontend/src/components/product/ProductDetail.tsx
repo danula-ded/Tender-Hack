@@ -20,7 +20,6 @@ export function ProductDetail({ groupId }: { groupId: string }) {
   const deleteVariant = useProductsStore((s) => s.deleteVariant);
   const getProduct = useProductsStore((s) => s.getProduct);
   const createProduct = useProductsStore((s) => s.createProduct);
-  const moveProductToGroup = useProductsStore((s) => s.moveProductToGroup);
 
   const [selected, setSelected] = React.useState<ProductVariant | null>(null);
   const [variants, setVariants] = React.useState<ProductVariant[]>([]);
