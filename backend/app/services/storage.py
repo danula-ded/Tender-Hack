@@ -138,49 +138,76 @@ class Storage:
         """Получить все продукты как DataFrame"""
         return pd.read_sql('SELECT * FROM products', self.conn)
 
-    def search_groups(self, query: str = None, category: str = None, filters: dict = None, offset: int = 0, limit: int = 20):
+    def search_groups(self, query: str = None, category: str = None,
+                    filters: dict = None, offset: int = 0, limit: int = 20):
+
         try:
-            # Простой запрос для получения групп
-            query_sql = """
-                SELECT group_id, name, product_count, created_at 
-                FROM groups 
-                ORDER BY product_count DESC 
-                LIMIT ? OFFSET ?
+            sql = """
+                SELECT DISTINCT g.group_id, g.name, g.product_count, g.created_at
+                FROM groups g
+                LEFT JOIN products p ON g.group_id = p.group_id
+                WHERE 1=1
             """
-        
-            groups = []
-            for group in self.cursor.execute(query_sql, [limit, offset]).fetchall():
-                group_dict = {
-                    "group_id": group[0],
-                    "name": group[1],
-                    "product_count": group[2],
-                    "created_at": group[3],
-                }
 
-                # Получаем продукты в этой группе (ограничиваем количество для производительности)
-                products = self.cursor.execute(
-                    "SELECT id, name, category_name, image_url FROM products WHERE group_id = ? LIMIT 10",
-                    (group_dict['group_id'],)
-                ).fetchall()
+            params = []
 
-                products_list = []
-                for product in products:
-                    product_dict = {
-                        "product_id": product[0],
-                        "name": product[1],
-                        "category": product[2],
-                        "image_url": product[3]
-                    }
-                    products_list.append(product_dict)
+            # Поиск по названию группы или товара
+            if query:
+                sql += " AND (g.name LIKE ? OR p.name LIKE ?)"
+                q = f"%{query}%"
+                params.extend([q, q])
 
-                group_dict['products'] = products_list
-                group_dict['attributes'] = {}  # Пустые атрибуты для демо
+            # Поиск по категории (в таблице products)
+            if category:
+                sql += " AND p.category_name LIKE ?"
+                params.append(f"%{category}%")
 
-                groups.append(group_dict)
+            # Дополнительные фильтры
+            if filters:
+                for key, value in filters.items():
+                    # фильтруем только поля таблицы groups или products
+                    if key in ["name", "category_name", "manufacturer", "model"]:
+                        sql += f" AND p.{key} LIKE ?"
+                        params.append(f"%{value}%")
+                    elif key in ["product_count"]:
+                        sql += f" AND g.{key} = ?"
+                        params.append(value)
 
-            # ВАЖНО: возвращаем список, а не словарь
-            return groups
-        
+            sql += " ORDER BY g.product_count DESC LIMIT ? OFFSET ?"
+            params.extend([limit, offset])
+
+            rows = self.cursor.execute(sql, params).fetchall()
+
+            result = []
+            for g in rows:
+                group_id = g[0]
+
+                # Получаем продукты группы
+                products = self.cursor.execute("""
+                    SELECT id, name, category_name, image_url 
+                    FROM products 
+                    WHERE group_id = ? 
+                    LIMIT 10
+                """, (group_id,)).fetchall()
+
+                product_list = [{
+                    "product_id": p[0],
+                    "name": p[1],
+                    "category": p[2],
+                    "image_url": p[3]
+                } for p in products]
+
+                result.append({
+                    "group_id": g[0],
+                    "name": g[1],
+                    "product_count": g[2],
+                    "created_at": g[3],
+                    "products": product_list,
+                    "attributes": {}
+                })
+
+            return result
+
         except Exception as e:
             logger.error(f"Error in search_groups: {e}")
             return []
