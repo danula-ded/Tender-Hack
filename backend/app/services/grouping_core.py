@@ -148,7 +148,8 @@ class ProductGrouper:
         current_group = 0
         
         for i, sig in enumerate(signatures):
-            first_words = ' '.join(sig.split()[:3])  # Первые 3 слова
+            eps_param = (10 - int(self.strictness * 10))
+            first_words = ' '.join(sig.split()[:eps_param]) 
             
             if not first_words:
                 labels.append(-1)
