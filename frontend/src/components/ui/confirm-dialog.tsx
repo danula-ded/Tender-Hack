@@ -25,7 +25,7 @@ export function ConfirmDialog({
   description,
   confirmLabel = 'Confirm',
   cancelLabel = 'Cancel',
-  confirmVariant = 'destructive',
+  confirmVariant = 'default',
   onOpenChange,
   onConfirm,
 }: ConfirmDialogProps) {
@@ -37,11 +37,12 @@ export function ConfirmDialog({
           {description ? <DialogDescription>{description}</DialogDescription> : null}
         </DialogHeader>
         <DialogFooter className="gap-2 sm:gap-0">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button variant="outline" className="text-black" onClick={() => onOpenChange(false)}>
             {cancelLabel}
           </Button>
           <Button
             variant={confirmVariant}
+            className="bg-black text-white hover:bg-black/90"
             onClick={() => {
               onConfirm();
               onOpenChange(false);

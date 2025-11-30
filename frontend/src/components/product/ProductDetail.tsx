@@ -94,13 +94,13 @@ export function ProductDetail({ groupId }: { groupId: string }) {
           <h2 className="text-xl font-semibold text-black">{title}</h2>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => setDeleteOpen(true)}>
+          <Button variant="outline" className="text-black" onClick={() => setDeleteOpen(true)}>
             <Trash2 className="mr-1 size-4 text-black" /> Удалить карточку
           </Button>
-          <Button variant="destructive" onClick={() => setDeleteVarOpen(true)}>
+          <Button variant="outline" className="text-black" onClick={() => setDeleteVarOpen(true)}>
             <Trash2 className="mr-1 size-4 text-black" /> Удалить вариант
           </Button>
-          <Button onClick={onSave}>
+          <Button variant="outline" className="text-black" onClick={onSave}>
             <Save className="mr-1 size-4 text-black" /> Сохранить
           </Button>
         </div>

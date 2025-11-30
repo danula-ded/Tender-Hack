@@ -36,8 +36,8 @@ export function SearchInput() {
           onChange={(e) => setValue(e.target.value)}
         />
       </div>
-      <Button onClick={onCreate}>
-        <Plus className="mr-1 size-4" /> Создать карточку
+      <Button onClick={onCreate} variant="outline" className="text-black">
+        <Plus className="mr-1 size-4 text-black" /> Создать карточку
       </Button>
     </div>
   );
