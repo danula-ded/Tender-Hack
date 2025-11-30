@@ -10,7 +10,6 @@ export default function CreateProduct() {
   const groupId = params.get('groupId') || undefined;
   const createProduct = useProductsStore((s) => s.createProduct);
   const fetchGroups = useProductsStore((s) => s.fetchGroups);
-  const moveProductToGroup = useProductsStore((s) => s.moveProductToGroup);
   const [title, setTitle] = React.useState('');
   const [model, setModel] = React.useState('');
   const [manufacturer, setManufacturer] = React.useState('');
@@ -41,12 +40,7 @@ export default function CreateProduct() {
       category_name: categoryName || null,
       image_url: imageUrl || null,
       characteristics,
-    });
-    // если передан target groupId — переносим созданный товар из manual_{id}
-    if (newId && groupId) {
-      const fromGroupId = `manual_${newId}`;
-      await moveProductToGroup(fromGroupId, newId, groupId);
-    }
+    }, groupId);
     await fetchGroups(true);
     const destGroup = groupId ? groupId : `manual_${newId}`;
     navigate(`/product/${destGroup}?card=${newId}`);

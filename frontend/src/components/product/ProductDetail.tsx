@@ -28,6 +28,16 @@ export function ProductDetail({ groupId }: { groupId: string }) {
   const [title, setTitle] = React.useState('');
   const [deleteOpen, setDeleteOpen] = React.useState(false);
   const [deleteVarOpen, setDeleteVarOpen] = React.useState(false);
+  const [creating, setCreating] = React.useState(false);
+  const [cName, setCName] = React.useState('');
+  const [cModel, setCModel] = React.useState('');
+  const [cManufacturer, setCManufacturer] = React.useState('');
+  const [cCountry, setCCountry] = React.useState('');
+  const [cCategoryId, setCCategoryId] = React.useState('');
+  const [cCategoryName, setCCategoryName] = React.useState('');
+  const [cImageUrl, setCImageUrl] = React.useState('');
+  const [cChars, setCChars] = React.useState<Array<[string, string]>>([["", ""]]);
+  const [creatingSaving, setCreatingSaving] = React.useState(false);
 
   React.useEffect(() => {
     void (async () => {
@@ -163,80 +173,161 @@ export function ProductDetail({ groupId }: { groupId: string }) {
           <Button
             className="mt-2 w-full"
             variant="outline"
-            onClick={() => {
-              void (async () => {
-                const newId = await createProduct({ name: 'Новый вариант' });
-                if (newId) {
-                  const fromGroupId = `manual_${newId}`;
-                  await moveProductToGroup(fromGroupId, newId, groupId);
-                  const p = await getProduct(newId);
-                  const newVar: ProductVariant = {
-                    id: String(p.id),
-                    name: p.name || 'Новый вариант',
-                    attributes: p.characteristics_dict || {},
-                    status: selected.status,
-                    imageUrl: p.image_url,
-                  };
-                  setVariants((arr) => [...arr, newVar]);
-                  const sp = new URLSearchParams(params);
-                  sp.set('card', newVar.id);
-                  setParams(sp, { replace: true });
-                  setSelected(newVar);
-                  setFields(
-                    Object.entries(newVar.attributes).map(([k, val]) => [k, String(val)] as [string, string]),
-                  );
-                }
-              })();
-            }}
+            onClick={() => setCreating((v) => !v)}
           >
-            <Plus className="mr-1 size-4 text-black" /> Создать вариант
+            <Plus className="mr-1 size-4 text-black" /> {creating ? 'Отмена' : 'Создать вариант'}
           </Button>
         </div>
 
         <div className="flex-1">
-          {selected.imageUrl ? (
-            <div className="mb-3 h-48 w-full overflow-hidden rounded-md border bg-white">
-              <img
-                src={selected.imageUrl}
-                alt={selected.name || selected.id}
-                className="h-full w-full object-contain"
-                loading="lazy"
-              />
-            </div>
-          ) : null}
-          <div className="mb-2 text-sm font-medium">Поля</div>
-          <div className="space-y-2">
-            {fields.map(([k, v], i) => (
-              <div key={i} className="flex gap-2">
-                <input
-                  className="w-48 rounded-md border px-3 py-2 text-sm"
-                  placeholder="Ключ"
-                  value={k}
-                  onChange={(e) =>
-                    setFields((arr) =>
-                      arr.map((row, idx) => (idx === i ? [e.target.value, row[1]] : row)),
-                    )
+          {creating ? (
+            <form
+              className="space-y-4"
+              onSubmit={(e) => {
+                e.preventDefault();
+                void (async () => {
+                  setCreatingSaving(true);
+                  const characteristics: Record<string, string> | null = (() => {
+                    const obj: Record<string, string> = {};
+                    for (const [k, v] of cChars) {
+                      const key = k?.trim();
+                      if (key) obj[key] = v ?? '';
+                    }
+                    return Object.keys(obj).length ? obj : null;
+                  })();
+                  const newId = await createProduct({
+                    name: cName,
+                    model: cModel || null,
+                    manufacturer: cManufacturer || null,
+                    country: cCountry || null,
+                    category_id: cCategoryId || null,
+                    category_name: cCategoryName || null,
+                    image_url: cImageUrl || null,
+                    characteristics,
+                  }, groupId);
+                  if (newId) {
+                    const p = await getProduct(newId);
+                    const newVar: ProductVariant = {
+                      id: String(p.id),
+                      name: p.name || 'Новый вариант',
+                      attributes: p.characteristics_dict || {},
+                      status: selected.status,
+                      imageUrl: p.image_url,
+                    };
+                    setVariants((arr) => [...arr, newVar]);
+                    setSelected(newVar);
+                    setFields(Object.entries(newVar.attributes).map(([k, val]) => [k, String(val)] as [string, string]));
+                    const sp = new URLSearchParams(params);
+                    sp.set('card', newVar.id);
+                    setParams(sp, { replace: true });
+                    setCreating(false);
+                    setCName(''); setCModel(''); setCManufacturer(''); setCCountry(''); setCCategoryId(''); setCCategoryName(''); setCImageUrl(''); setCChars([["", ""]]);
+                    void fetchGroup(groupId);
                   }
-                />
-                <input
-                  className="flex-1 rounded-md border px-3 py-2 text-sm"
-                  placeholder="Значение"
-                  value={v}
-                  onChange={(e) =>
-                    setFields((arr) =>
-                      arr.map((row, idx) => (idx === i ? [row[0], e.target.value] : row)),
-                    )
-                  }
-                />
-                <Button variant="outline" onClick={() => removeField(i)}>
-                  Удалить
+                  setCreatingSaving(false);
+                })();
+              }}
+            >
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                <div className="col-span-1 md:col-span-2">
+                  <label className="mb-1 block text-sm font-medium">Название</label>
+                  <input className="w-full rounded-md border px-3 py-2 text-sm text-black" placeholder="Название товара" value={cName} onChange={(e) => setCName(e.target.value)} required />
+                </div>
+                <div>
+                  <label className="mb-1 block text-sm font-medium">Модель</label>
+                  <input className="w-full rounded-md border px-3 py-2 text-sm text-black" value={cModel} onChange={(e) => setCModel(e.target.value)} />
+                </div>
+                <div>
+                  <label className="mb-1 block text-sm font-medium">Производитель</label>
+                  <input className="w-full rounded-md border px-3 py-2 text-sm text-black" value={cManufacturer} onChange={(e) => setCManufacturer(e.target.value)} />
+                </div>
+                <div>
+                  <label className="mb-1 block text-sm font-medium">Страна</label>
+                  <input className="w-full rounded-md border px-3 py-2 text-sm text-black" value={cCountry} onChange={(e) => setCCountry(e.target.value)} />
+                </div>
+                <div>
+                  <label className="mb-1 block text-sm font-medium">Категория (ID)</label>
+                  <input className="w-full rounded-md border px-3 py-2 text-sm text-black" value={cCategoryId} onChange={(e) => setCCategoryId(e.target.value)} />
+                </div>
+                <div>
+                  <label className="mb-1 block text-sm font-medium">Категория (название)</label>
+                  <input className="w-full rounded-md border px-3 py-2 text-sm text-black" value={cCategoryName} onChange={(e) => setCCategoryName(e.target.value)} />
+                </div>
+                <div className="col-span-1 md:col-span-2">
+                  <label className="mb-1 block text-sm font-medium">Ссылка на изображение</label>
+                  <input className="w-full rounded-md border px-3 py-2 text-sm text-black" value={cImageUrl} onChange={(e) => setCImageUrl(e.target.value)} placeholder="https://..." />
+                </div>
+              </div>
+              <div>
+                <div className="mb-2 text-sm font-medium">Характеристики</div>
+                <div className="space-y-2">
+                  {cChars.map(([k, v], idx) => (
+                    <div key={idx} className="flex gap-2">
+                      <input className="w-1/2 rounded-md border px-3 py-2 text-sm text-black" placeholder="Ключ" value={k} onChange={(e) => { const next = [...cChars]; next[idx] = [e.target.value, v]; setCChars(next); }} />
+                      <input className="w-1/2 rounded-md border px-3 py-2 text-sm text-black" placeholder="Значение" value={v} onChange={(e) => { const next = [...cChars]; next[idx] = [k, e.target.value]; setCChars(next); }} />
+                    </div>
+                  ))}
+                  <Button type="button" variant="outline" className="text-black" onClick={() => setCChars((arr) => [...arr, ["", ""]])}>
+                    <Plus className="mr-1 size-4 text-black" /> Добавить характеристику
+                  </Button>
+                </div>
+              </div>
+              <div className="flex items-center justify-end gap-2">
+                <Button type="button" variant="outline" className="text-black" onClick={() => setCreating(false)}>
+                  Отмена
+                </Button>
+                <Button type="submit" disabled={creatingSaving} variant="outline" className="text-black">
+                  {creatingSaving ? 'Создание...' : 'Создать'}
                 </Button>
               </div>
-            ))}
-            <Button variant="outline" onClick={addField}>
-              <Plus className="mr-1 size-4" /> Добавить поле
-            </Button>
-          </div>
+            </form>
+          ) : (
+            <>
+              {selected.imageUrl ? (
+                <div className="mb-3 h-48 w-full overflow-hidden rounded-md border bg-white">
+                  <img
+                    src={selected.imageUrl}
+                    alt={selected.name || selected.id}
+                    className="h-full w-full object-contain"
+                    loading="lazy"
+                  />
+                </div>
+              ) : null}
+              <div className="mb-2 text-sm font-medium">Поля</div>
+              <div className="space-y-2">
+                {fields.map(([k, v], i) => (
+                  <div key={i} className="flex gap-2">
+                    <input
+                      className="w-48 rounded-md border px-3 py-2 text-sm"
+                      placeholder="Ключ"
+                      value={k}
+                      onChange={(e) =>
+                        setFields((arr) =>
+                          arr.map((row, idx) => (idx === i ? [e.target.value, row[1]] : row)),
+                        )
+                      }
+                    />
+                    <input
+                      className="flex-1 rounded-md border px-3 py-2 text-sm"
+                      placeholder="Значение"
+                      value={v}
+                      onChange={(e) =>
+                        setFields((arr) =>
+                          arr.map((row, idx) => (idx === i ? [row[0], e.target.value] : row)),
+                        )
+                      }
+                    />
+                    <Button variant="outline" onClick={() => removeField(i)}>
+                      Удалить
+                    </Button>
+                  </div>
+                ))}
+                <Button variant="outline" onClick={addField}>
+                  <Plus className="mr-1 size-4" /> Добавить поле
+                </Button>
+              </div>
+            </>
+          )}
         </div>
       </div>
 

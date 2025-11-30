@@ -40,7 +40,7 @@ type ProductsState = {
   rateGroup: (groupId: string, score: number) => Promise<void>;
   deleteGroup: (groupId: string) => Promise<void>;
   deleteProduct: (groupId: string) => Promise<void>;
-  createProduct: (productData: any) => Promise<number>;
+  createProduct: (productData: any, targetGroupId?: string) => Promise<number>;
   updateVariant: (groupId: string, productData: any) => Promise<void>;
   deleteVariant: (groupId: string, productId: number | string) => Promise<void>;
   moveProductToGroup: (groupId: string, productId: number, targetGroupId: string) => Promise<void>;
@@ -156,7 +156,7 @@ export const useProductsStore = create<ProductsState>((set, get) => ({
     await axios.delete(PATHS.groups.delete(groupId));
     void get().fetchGroups(true);
   },
-  async createProduct(productData: any) {
+  async createProduct(productData: any, targetGroupId?: string) {
     const payload = {
       name: productData?.name ?? '',
       model: productData?.model ?? null,
@@ -167,7 +167,11 @@ export const useProductsStore = create<ProductsState>((set, get) => ({
       image_url: productData?.image_url ?? productData?.imageUrl ?? null,
       characteristics: productData?.characteristics ?? productData?.attributes ?? null,
     };
-    const res = await axios.post(PATHS.products.create, payload);
+    const res = await axios.post(
+      PATHS.products.create,
+      payload,
+      targetGroupId ? { params: { target_group_id: targetGroupId } } : undefined,
+    );
     return Number(res.data?.id ?? 0);
   },
   async updateVariant(_groupId: string, productData: any) {

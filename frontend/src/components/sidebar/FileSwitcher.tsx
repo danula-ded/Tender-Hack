@@ -42,7 +42,9 @@ export function FileSwitcher() {
     const files = Array.from(e.target.files ?? []);
     if (files.length === 0) return;
     for (const f of files) {
-      await upload(f);
+      await upload(f).then(() => {
+        console.log("Даные отправленны на агрегацию");
+      });
     }
     // store.upload уже обновит список групп на успех
     e.target.value = '';
@@ -78,7 +80,7 @@ export function FileSwitcher() {
             onClick={onUploadClick}
             disabled={uploading}
           >
-            <UploadIcon className="size-4" />
+            <Download className="size-4" />
             {uploading ? 'Загрузка…' : 'Загрузить Excel (.xlsx)'}
             <input
               ref={fileInputRef}
@@ -94,7 +96,7 @@ export function FileSwitcher() {
             onClick={onDownload}
             disabled={downloading}
           >
-            <Download className="size-4" />
+            <UploadIcon className="size-4" />
             {downloading ? 'Загрузка…' : 'Скачать агрегированные данные'}
           </DropdownMenuItem>
         </DropdownMenuContent>

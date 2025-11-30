@@ -1,5 +1,5 @@
 # backend/app/api/products.py
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 from typing import Dict, Any, Optional
 from app.services.storage import storage
@@ -27,7 +27,7 @@ class ProductUpdate(BaseModel):
     characteristics: Optional[Dict[str, str]] = None
 
 @router.post("")
-async def create_product(product_data: ProductCreate):
+async def create_product(product_data: ProductCreate, target_group_id: Optional[str] = Query(default=None)):
     """Создание нового товара"""
     try:
         # Преобразуем характеристики в строку
@@ -35,8 +35,9 @@ async def create_product(product_data: ProductCreate):
         if product_data.characteristics:
             chars_str = ";".join([f"{k}:{v}" for k, v in product_data.characteristics.items()])
         
+        # Storage не имеет атрибута groups; original_id не обязателен для создания,
+        # поэтому просто заполняем поля продукта без вычисления original_id
         product_dict = {
-            'original_id': f"manual_{len(storage.groups) + 1}",
             'name': product_data.name,
             'model': product_data.model,
             'manufacturer': product_data.manufacturer,
@@ -47,7 +48,7 @@ async def create_product(product_data: ProductCreate):
             'characteristics': chars_str
         }
         
-        product_id = storage.create_product(product_dict)
+        product_id = storage.create_product(product_dict, target_group_id=target_group_id)
         return {"id": product_id, "status": "created"}
         
     except Exception as e:

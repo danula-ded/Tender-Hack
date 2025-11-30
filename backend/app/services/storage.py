@@ -187,7 +187,7 @@ class Storage:
                     SELECT id, name, category_name, image_url 
                     FROM products 
                     WHERE group_id = ? 
-                    LIMIT 10
+                    LIMIT 100
                 """, (group_id,)).fetchall()
 
                 product_list = [{
@@ -296,8 +296,11 @@ class Storage:
         except Exception as e:
             logger.error(f"Error deleting group {group_id}: {e}")
 
-    def create_product(self, product_data: dict) -> int:
-        """Создание нового продукта с автоматическим определением группы"""
+    def create_product(self, product_data: dict, target_group_id: Optional[str] = None) -> int:
+        """Создание нового продукта. Если указан target_group_id, добавляет товар в существующую группу.
+
+        Иначе создаёт новую группу вида manual_{product_id} через _auto_assign_group.
+        """
         try:
             self.cursor.execute('''
             INSERT INTO products 
@@ -316,10 +319,22 @@ class Storage:
             ))
             new_id = self.cursor.lastrowid
             self.conn.commit()
-            
-            # Автоматическое определение группы
-            self._auto_assign_group(new_id)
-            
+
+            if target_group_id:
+                # Проверяем, что группа существует
+                grp = self.cursor.execute('SELECT group_id, product_count FROM groups WHERE group_id = ?', (target_group_id,)).fetchone()
+                if not grp:
+                    raise ValueError(f"Group '{target_group_id}' not found")
+
+                # Привязываем товар к группе
+                self.cursor.execute('UPDATE products SET group_id = ? WHERE id = ?', (target_group_id, new_id))
+                # Обновляем счётчик товаров группы
+                self.cursor.execute('UPDATE groups SET product_count = COALESCE(product_count, 0) + 1 WHERE group_id = ?', (target_group_id,))
+                self.conn.commit()
+            else:
+                # Автоматическое определение/создание группы
+                self._auto_assign_group(new_id)
+
             return new_id
         except Exception as e:
             logger.error(f"Error creating product: {e}")
