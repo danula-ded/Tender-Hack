@@ -38,20 +38,32 @@ export function FileSwitcher() {
   };
 
   const onUploadClick = () => fileInputRef.current?.click();
-  const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files ?? []);
-    if (files.length === 0) return;
-    for (const f of files) {
-      await upload(f).then(() => {
-        console.log("Даные отправленны на агрегацию");
-      });
-    }
-    // store.upload уже обновит список групп на успех
     e.target.value = '';
+    if (files.length === 0) return;
+    (async () => {
+      for (const f of files) {
+        try {
+          await upload(f);
+          console.log("Даные отправленны на агрегацию");
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    })();
   };
 
   return (
     <div className="p-2">
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".xlsx,.xls"
+        multiple
+        className="hidden"
+        onChange={onFileChange}
+      />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
@@ -82,14 +94,6 @@ export function FileSwitcher() {
           >
             <Download className="size-4" />
             {uploading ? 'Загрузка…' : 'Загрузить Excel (.xlsx)'}
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".xlsx,.xls"
-              multiple
-              className="hidden"
-              onChange={onFileChange}
-            />
           </DropdownMenuItem>
           <DropdownMenuItem
             className="gap-2 p-2 focus:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
