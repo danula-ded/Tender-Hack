@@ -69,7 +69,7 @@ export function ProductDetail({ groupId }: { groupId: string }) {
     );
   }
 
-  // функция перемещения товара между группами будет добавлена позже при необходимости
+  // Перемещение товара между группами реализовано в store.moveProductToGroup
 
   const onSave = async () => {
     const attrs: Record<string, string> = {};
@@ -91,17 +91,17 @@ export function ProductDetail({ groupId }: { groupId: string }) {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div className="text-xs opacity-60">Группа #{groupId}</div>
-          <h2 className="text-xl font-semibold">{title}</h2>
+          <h2 className="text-xl font-semibold text-black">{title}</h2>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={() => setDeleteOpen(true)}>
-            <Trash2 className="mr-1 size-4" /> Удалить карточку
+            <Trash2 className="mr-1 size-4 text-black" /> Удалить карточку
           </Button>
           <Button variant="destructive" onClick={() => setDeleteVarOpen(true)}>
-            <Trash2 className="mr-1 size-4" /> Удалить вариант
+            <Trash2 className="mr-1 size-4 text-black" /> Удалить вариант
           </Button>
           <Button onClick={onSave}>
-            <Save className="mr-1 size-4" /> Сохранить
+            <Save className="mr-1 size-4 text-black" /> Сохранить
           </Button>
         </div>
       </div>
@@ -123,6 +123,28 @@ export function ProductDetail({ groupId }: { groupId: string }) {
               </option>
             ))}
           </select>
+          {/* Миниатюры вариантов для быстрого переключения */}
+          {variants.length > 1 ? (
+            <div className="mt-3 flex gap-2 overflow-x-auto">
+              {variants.map((v) => (
+                <button
+                  key={v.id}
+                  className={`h-14 w-14 flex-shrink-0 rounded border ${v.id === selected.id ? 'border-black' : 'border-gray-200'}`}
+                  onClick={() => {
+                    params.set('card', v.id);
+                    setParams(params, { replace: true });
+                  }}
+                  title={v.name || v.id}
+                >
+                  {v.imageUrl ? (
+                    <img src={v.imageUrl} alt={v.name || v.id} className="h-full w-full object-contain" loading="lazy" />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center text-black/50">No img</div>
+                  )}
+                </button>
+              ))}
+            </div>
+          ) : null}
           <Button
             className="mt-2 w-full"
             variant="outline"
@@ -130,7 +152,8 @@ export function ProductDetail({ groupId }: { groupId: string }) {
               void (async () => {
                 const newId = await createProduct({ name: 'Новый вариант' });
                 if (newId) {
-                  await moveProductToGroup(groupId, newId, groupId);
+                  const fromGroupId = `manual_${newId}`;
+                  await moveProductToGroup(fromGroupId, newId, groupId);
                   const p = await getProduct(newId);
                   const newVar: ProductVariant = {
                     id: String(p.id),
@@ -148,7 +171,7 @@ export function ProductDetail({ groupId }: { groupId: string }) {
               })();
             }}
           >
-            <Plus className="mr-1 size-4" /> Создать вариант
+            <Plus className="mr-1 size-4 text-black" /> Создать вариант
           </Button>
         </div>
 
@@ -219,8 +242,10 @@ export function ProductDetail({ groupId }: { groupId: string }) {
           await deleteVariant(groupId, selected.id);
           const rest = variants.filter((v) => v.id !== selected.id);
           setVariants(rest);
-          const next = rest[0];
+          const next = rest[0] ?? null;
           if (next) {
+            setSelected(next);
+            setFields(Object.entries(next.attributes).map(([k, val]) => [k, String(val)] as [string, string]));
             params.set('card', next.id);
             setParams(params, { replace: true });
           } else {

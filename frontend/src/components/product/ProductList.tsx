@@ -53,9 +53,9 @@ export function ProductList() {
     if (groups.length === 0) {
         return (
             <div className="text-center py-20">
-                <AlertCircle className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                <p className="text-lg text-gray-600">Группы товаров не найдены</p>
-                <p className="text-sm text-gray-500 mt-2">
+                <AlertCircle className="mx-auto h-12 w-12 text-black/50 mb-4" />
+                <p className="text-lg text-black/70">Группы товаров не найдены</p>
+                <p className="text-sm text-black/60 mt-2">
                     Попробуйте переагрегировать с меньшей строгостью
                 </p>
             </div>

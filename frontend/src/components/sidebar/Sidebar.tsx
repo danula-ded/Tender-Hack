@@ -8,9 +8,9 @@ import {
 import { Filters } from '@/components/sidebar/Filters';
 import { FileSwitcher } from '@/components/sidebar/FileSwitcher';
 
-export function Sidebar() {
+export function Sidebar(props: React.ComponentProps<typeof UISidebar>) {
     return (
-        <UISidebar>
+        <UISidebar {...props}>
             <SidebarHeader>
                 <FileSwitcher />
             </SidebarHeader>

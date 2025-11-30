@@ -47,7 +47,7 @@ export function ProductCard({ group }: { group: GroupFromBackend }) {
                             loading="lazy"
                         />
                     ) : (
-                        <Package className="w-16 h-16 text-gray-400" />
+                        <Package className="w-16 h-16 text-black/50" />
                     )}
                     {isGoodGroup && (
                         <Badge className="absolute top-2 right-2 bg-blue-600 text-white">
@@ -59,7 +59,7 @@ export function ProductCard({ group }: { group: GroupFromBackend }) {
                     <h3 className="font-medium text-sm line-clamp-2 mb-2">
                         {group.name || 'Без названия'}
                     </h3>
-                    <div className="flex items-center gap-3 text-xs text-gray-600">
+                    <div className="flex items-center gap-3 text-xs text-black/70">
                         <span>ID: {group.id}</span>
                     </div>
                     {/* Оценка */}
@@ -81,7 +81,7 @@ export function ProductCard({ group }: { group: GroupFromBackend }) {
                     <Edit className="w-4 h-4 mr-1" /> Открыть
                 </Button>
                 <Button size="sm" variant="destructive" onClick={(e) => { e.stopPropagation(); setOpenDel(true); }}>
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-4 h-4 text-black" />
                 </Button>
             </div>
             <ConfirmDialog open={openDel} onOpenChange={setOpenDel} title="Удалить группу?" onConfirm={() => deleteGroup(group.id)} />
