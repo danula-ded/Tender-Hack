@@ -11,18 +11,19 @@ export function ProductList() {
     const initialized = useProductsStore(s => s.initialized);
     const fetchGroups = useProductsStore(s => s.fetchGroups);
     const total = useProductsStore(s => s.total);
-    const observer = React.useRef(null);
-    const lastElementRef = React.useCallback(node => {
+    const observer = React.useRef<IntersectionObserver | null>(null);
+    const lastElementRef = React.useCallback((node: Element | null) => {
         if (loading) return;
         if (observer.current) observer.current.disconnect();
-        observer.current = new IntersectionObserver(entries => {
+        observer.current = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting && groups.length < total) {
-                set({ page: get().page + 1 });
-                fetchGroups();
+                const { page } = useProductsStore.getState();
+                useProductsStore.setState({ page: page + 1 });
+                void fetchGroups();
             }
         });
-        if (node) observer.current.observe(node);
-    }, [loading, groups.length, total]);
+        if (node && observer.current) observer.current.observe(node);
+    }, [loading, groups.length, total, fetchGroups]);
 
     // Если ещё ничего не загружено
     if (!initialized) {

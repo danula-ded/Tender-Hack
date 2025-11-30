@@ -1,5 +1,4 @@
 // frontend/src/pages/ProductPage.tsx
-import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import { ProductDetail } from '@/components/product/ProductDetail';
 

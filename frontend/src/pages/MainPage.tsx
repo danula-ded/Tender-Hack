@@ -11,17 +11,15 @@ import { Plus, RefreshCw } from 'lucide-react';
 export default function MainPage() {
     const navigate = useNavigate();
     const groups = useProductsStore((s) => s.groups);
-    const initialized = useProductsStore((s) => s.initialized);
     const loading = useProductsStore((s) => s.loading);
     const fetchGroups = useProductsStore((s) => s.fetchGroups);
     const reaggregate = useProductsStore((s) => s.reaggregate);
     const [strictness, setStrictness] = React.useState(70);
 
     React.useEffect(() => {
-        if (initialized && groups.length === 0) {
-            fetchGroups(true);
-        }
-    }, [initialized, fetchGroups]);
+        void fetchGroups(true);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const hasData = groups.length > 0;
 

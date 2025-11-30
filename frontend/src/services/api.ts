@@ -71,8 +71,9 @@ export async function uploadFile(
 export { apiClient };
 
 export async function fetchAggregated(fileId?: string): Promise<Blob> {
-  const res = await apiClient.get(PATHS.aggregated.download, {
-    params: fileId ? { fileId } : undefined,
+  const res = await apiClient.get(PATHS.download, {
+    // backend expects optional query 'slice_ids', keep compatibility if passed
+    params: fileId ? { slice_ids: fileId } : undefined,
     responseType: 'blob',
   });
   return res.data as Blob;

@@ -54,7 +54,6 @@ export function FileSwitcher() {
             <DropdownMenuLabel className="text-xs text-muted-foreground">
               Действия
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
             <DropdownMenuItem className="gap-2 p-2" onClick={onDownload} disabled={downloading}>
               <Download className="size-4" />
               {downloading ? 'Загрузка…' : 'Скачать агрегированные данные'}

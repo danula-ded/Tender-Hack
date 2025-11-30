@@ -6,12 +6,12 @@ services:
     volumes:
       - ./backend:/app
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: http://backend:8000
     ports:
-      - "5173:5173"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      - "3000:4173"
     depends_on:
       - backend
 networks:

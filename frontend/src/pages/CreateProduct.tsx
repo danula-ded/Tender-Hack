@@ -9,13 +9,13 @@ export default function CreateProduct() {
     const groupId = params.get('groupId') || undefined;
     const createProduct = useProductsStore((s) => s.createProduct);
     const fetchGroups = useProductsStore((s) => s.fetchGroups);
-    const [productData, setProductData] = React.useState({ name: '', /* другие поля */ });
+    const [title, setTitle] = React.useState('');
     const [saving, setSaving] = React.useState(false);
 
-    const onSubmit = async (e) => {
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setSaving(true);
-        await createProduct({ ...productData, groupId });
+        await createProduct({ name: title, groupId });
         await fetchGroups(true);
         navigate(groupId ? `/product/${groupId}` : '/');
         setSaving(false);

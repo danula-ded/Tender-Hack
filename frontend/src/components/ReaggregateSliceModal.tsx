@@ -17,7 +17,7 @@ export function ReaggregateSliceModal({ open, onOpenChange, selectedProductIds }
 
     const handle = async () => {
         setLoading(true);
-        await axios.post(PATHS.groups.reaggregateSlice, selectedProductIds, { params: { strictness } });
+        await axios.post(PATHS.groups.reaggregateSlice, { product_ids: selectedProductIds }, { params: { strictness } });
         setLoading(false);
         onOpenChange(false);
         window.location.reload(); // или обнови через store

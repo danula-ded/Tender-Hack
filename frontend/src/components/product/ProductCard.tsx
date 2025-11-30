@@ -1,6 +1,7 @@
 // frontend/src/components/product/ProductCard.tsx
 import * as React from 'react';
-import { Copy, Edit, Trash2, Package } from 'lucide-react';
+import { Edit, Trash2, Package } from 'lucide-react';
+
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
@@ -13,6 +14,7 @@ type GroupFromBackend = {
     name: string;
     representative_id: number;
     product_ids: number[];
+    representative_image_url?: string;
     score?: number;
     user_score?: number | null;
     significant_features?: string[];
@@ -28,7 +30,7 @@ export function ProductCard({ group }: { group: GroupFromBackend }) {
     const variantCount = group.product_ids.length;
     const isGoodGroup = variantCount > 1;
 
-    const handleRate = (newScore) => {
+    const handleRate = (newScore: number) => {
         setLocalScore(newScore);
         rateGroup(group.id, newScore);
     };
@@ -36,8 +38,17 @@ export function ProductCard({ group }: { group: GroupFromBackend }) {
     return (
         <Card className="overflow-hidden transition-all hover:shadow-lg border-2 hover:border-blue-200 cursor-pointer">
             <div onClick={() => navigate(`/product/${group.id}`)} className="block">
-                <div className="bg-gray-100 border-b h-48 flex items-center justify-center relative">
-                    <Package className="w-16 h-16 text-gray-400" />
+                <div className="bg-gray-100 border-b h-48 flex items-center justify-center relative overflow-hidden">
+                    {group.representative_image_url ? (
+                        <img
+                            src={group.representative_image_url}
+                            alt={group.name || `Группа ${group.id}`}
+                            className="object-contain w-full h-full"
+                            loading="lazy"
+                        />
+                    ) : (
+                        <Package className="w-16 h-16 text-gray-400" />
+                    )}
                     {isGoodGroup && (
                         <Badge className="absolute top-2 right-2 bg-blue-600 text-white">
                             {variantCount} вариантов

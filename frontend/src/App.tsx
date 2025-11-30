@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router-dom';
 
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
@@ -9,20 +8,18 @@ import CreateProduct from '@/pages/CreateProduct';
 import { useProductsStore } from '@/hooks/use-products-store';
 
 function AppShell() {
-  const productsRaw = useProductsStore((s) => s.products);
-  const products = productsRaw ?? [];
-  const hasData = (Array.isArray(products) ? products.length : 0) > 0;
+  const groups = useProductsStore((s) => s.groups);
+  const hasData = Array.isArray(groups) && groups.length > 0;
   const loading = useProductsStore((s) => s.loading);
-
 
   return (
     <SidebarProvider>
       <div className="min-h-svh w-full">
-        {hasData ? <Sidebar /> : null}
+        <Sidebar />
         <SidebarInset>
           <header className="border-b bg-background/60 sticky top-0 z-10 backdrop-blur">
             <div className="mx-auto flex h-14 w-full max-w-7xl items-center gap-3 px-4">
-              {hasData ? <SidebarTrigger /> : null}
+              <SidebarTrigger />
               <Link to="/" className="font-semibold">
                 Каталог
               </Link>

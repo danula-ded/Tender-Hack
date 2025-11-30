@@ -6,7 +6,7 @@ import { useProductsStore } from '@/hooks/use-products-store';
 
 export function SearchInput() {
   const setQuery = useProductsStore((s) => s.setQuery);
-  const fetchProducts = useProductsStore((s) => s.fetchProducts);
+  const fetchGroups = useProductsStore((s) => s.fetchGroups);
   const createProduct = useProductsStore((s) => s.createProduct);
   const storeQuery = useProductsStore((s) => s.query);
 
@@ -16,17 +16,17 @@ export function SearchInput() {
     const id = setTimeout(() => {
       if (value !== storeQuery) {
         setQuery(value);
-        void fetchProducts(true);
+        void fetchGroups(true);
       }
     }, 350);
     return () => clearTimeout(id);
-  }, [value, storeQuery, setQuery, fetchProducts]);
+  }, [value, storeQuery, setQuery, fetchGroups]);
 
   const onCreate = async () => {
-    const created = await createProduct({ title: 'Новая карточка' });
+    const created = await createProduct({ name: 'Новая карточка' });
     // Redirect to list or product page could be handled here if needed
     void created;
-    await fetchProducts(true);
+    await fetchGroups(true);
   };
 
   return (

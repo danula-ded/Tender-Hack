@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useProductsStore } from '@/hooks/use-products-store';
-import type { ProductGroup, ProductVariant } from '@/types/product';
+import type { ProductVariant } from '@/types/product';
 
 export function ProductDetail({ groupId }: { groupId: string }) {
   const navigate = useNavigate();
@@ -18,8 +18,12 @@ export function ProductDetail({ groupId }: { groupId: string }) {
   const updateVariant = useProductsStore((s) => s.updateVariant);
   const deleteProduct = useProductsStore((s) => s.deleteProduct);
   const deleteVariant = useProductsStore((s) => s.deleteVariant);
+  const getProduct = useProductsStore((s) => s.getProduct);
+  const createProduct = useProductsStore((s) => s.createProduct);
+  const moveProductToGroup = useProductsStore((s) => s.moveProductToGroup);
 
   const [selected, setSelected] = React.useState<ProductVariant | null>(null);
+  const [variants, setVariants] = React.useState<ProductVariant[]>([]);
   const [fields, setFields] = React.useState<Array<[string, string]>>([]);
   const [title, setTitle] = React.useState('');
   const [deleteOpen, setDeleteOpen] = React.useState(false);
@@ -27,12 +31,19 @@ export function ProductDetail({ groupId }: { groupId: string }) {
 
   React.useEffect(() => {
     void (async () => {
-      const g = (currentGroup?.id === groupId ? currentGroup : await fetchGroup(groupId)) as
-        | ProductGroup
-        | undefined;
+      const g = currentGroup?.id === groupId ? currentGroup : await fetchGroup(groupId);
       if (!g) return;
-      setTitle(g.title);
-      const v = g.variants.find((x) => x.id === cardParam) || g.variants[0];
+      setTitle(g.name);
+      const details = await Promise.all((g.product_ids ?? []).map((pid: number) => getProduct(pid)));
+      const list: ProductVariant[] = details.map((p: any) => ({
+        id: String(p.id),
+        name: p.name || String(p.id),
+        imageUrl: p.image_url,
+        attributes: p.characteristics_dict || {},
+        status: 'in_review',
+      }));
+      setVariants(list);
+      const v = list.find((x) => x.id === cardParam) || list[0];
       if (v && v.id !== cardParam) {
         params.set('card', v.id);
         setParams(params, { replace: true });
@@ -58,12 +69,7 @@ export function ProductDetail({ groupId }: { groupId: string }) {
     );
   }
 
-  const onDropToGroup = async (productId: number, targetGroupId: string) => {
-    await axios.post(`/api/groups/${currentGroup.id}/move`, null, {
-      params: { product_id: productId, target_group_id: targetGroupId }
-    });
-    // обновить локальное состояние
-  };
+  // функция перемещения товара между группами будет добавлена позже при необходимости
 
   const onSave = async () => {
     const attrs: Record<string, string> = {};
@@ -78,10 +84,7 @@ export function ProductDetail({ groupId }: { groupId: string }) {
   const addField = () => setFields((arr) => [...arr, ['', '']]);
   const removeField = (i: number) => setFields((arr) => arr.filter((_, idx) => idx !== i));
 
-  const group = (currentGroup?.id === groupId ? currentGroup : undefined) as
-    | ProductGroup
-    | undefined;
-  const variants = group?.variants ?? [];
+  // variants managed via local state above
 
   return (
     <div className="space-y-5">
@@ -124,17 +127,25 @@ export function ProductDetail({ groupId }: { groupId: string }) {
             className="mt-2 w-full"
             variant="outline"
             onClick={() => {
-              const newVar: ProductVariant = {
-                id: crypto.randomUUID(),
-                name: 'Новый вариант',
-                attributes: {},
-                status: selected.status,
-                imageUrl: selected.imageUrl,
-              };
-              void updateVariant(groupId, newVar).then(() => {
-                params.set('card', newVar.id);
-                setParams(params, { replace: true });
-              });
+              void (async () => {
+                const newId = await createProduct({ name: 'Новый вариант' });
+                if (newId) {
+                  await moveProductToGroup(groupId, newId, groupId);
+                  const p = await getProduct(newId);
+                  const newVar: ProductVariant = {
+                    id: String(p.id),
+                    name: p.name || 'Новый вариант',
+                    attributes: p.characteristics_dict || {},
+                    status: selected.status,
+                    imageUrl: p.image_url,
+                  };
+                  setVariants((arr) => [...arr, newVar]);
+                  params.set('card', newVar.id);
+                  setParams(params, { replace: true });
+                  setSelected(newVar);
+                  setFields([]);
+                }
+              })();
             }}
           >
             <Plus className="mr-1 size-4" /> Создать вариант
@@ -142,6 +153,16 @@ export function ProductDetail({ groupId }: { groupId: string }) {
         </div>
 
         <div className="flex-1">
+          {selected.imageUrl ? (
+            <div className="mb-3 h-48 w-full overflow-hidden rounded-md border bg-white">
+              <img
+                src={selected.imageUrl}
+                alt={selected.name || selected.id}
+                className="h-full w-full object-contain"
+                loading="lazy"
+              />
+            </div>
+          ) : null}
           <div className="mb-2 text-sm font-medium">Поля</div>
           <div className="space-y-2">
             {fields.map(([k, v], i) => (
@@ -196,8 +217,9 @@ export function ProductDetail({ groupId }: { groupId: string }) {
         description="Действие необратимо."
         onConfirm={async () => {
           await deleteVariant(groupId, selected.id);
-          // select another available variant if exists
-          const next = (group?.variants || []).find((v) => v.id !== selected.id);
+          const rest = variants.filter((v) => v.id !== selected.id);
+          setVariants(rest);
+          const next = rest[0];
           if (next) {
             params.set('card', next.id);
             setParams(params, { replace: true });

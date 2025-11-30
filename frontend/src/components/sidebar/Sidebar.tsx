@@ -1,5 +1,4 @@
 // frontend/src/components/sidebar/Sidebar.tsx
-import * as React from 'react';
 import {
     Sidebar as UISidebar,
     SidebarContent,

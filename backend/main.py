@@ -6,6 +6,7 @@ the Dockerfile command consistent (`uvicorn app.main:app ...`).
 from __future__ import annotations
 
 import uvicorn
+from app.main import app as app
 
 
 def main() -> None:
@@ -15,4 +16,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
