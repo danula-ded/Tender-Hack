@@ -1,52 +1,35 @@
-"""Product and variant models used across the API layer."""
-from __future__ import annotations
-
-from typing import Any, Dict, List, Optional
-
-from pydantic import BaseModel, Field
-
-
-class ProductVariant(BaseModel):
-    """A variant of a product that can override base attributes."""
-
-    id: int
-    characteristics: Dict[str, Any] = Field(default_factory=dict)
-    price: Optional[float] = None
-    name: Optional[str] = None
-    is_active: bool = True
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Return a plain dict representation compatible with Pydantic v1/v2."""
-        if hasattr(self, "model_dump"):
-            return self.model_dump()  # type: ignore[attr-defined]
-        return self.dict()  # type: ignore[no-any-return]
-
+from typing import Dict, Optional
+from pydantic import BaseModel, field_validator
+import pandas as pd
 
 class Product(BaseModel):
-    """Product model with optional variants."""
-
     id: int
+    original_id: str
     name: str
-    description: Optional[str] = None
-    price: float
-    characteristics: Dict[str, Any] = Field(default_factory=dict)
-    variants: List[ProductVariant] = Field(default_factory=list)
+    model: Optional[str] = None
+    manufacturer: Optional[str] = None
+    
+    # ← ВОТ ЭТИ ПОЛЯ БЫЛИ ПРОБЛЕМОЙ
+    country: Optional[str] = None          # было str → стало Optional[str]
+    category_id: Optional[str] = None      # было str → стало Optional[str]
+    category_name: Optional[str] = None
+    image_url: Optional[str] = None
 
-    def to_dict(self) -> Dict[str, Any]:
-        """Return a plain dict representation compatible with Pydantic v1/v2."""
-        if hasattr(self, "model_dump"):
-            return self.model_dump()  # type: ignore[attr-defined]
-        return self.dict()  # type: ignore[no-any-return]
+    characteristics: Dict[str, str] = {}
+    group_id: Optional[str] = None
 
-    def has_variants(self) -> bool:
-        """Return True when the product has at least one variant."""
-        return bool(self.variants)
+    # ← Автоматически приводим всё к строке или None
+    @field_validator('country', 'category_id', 'category_name', 'model', 'manufacturer', 'image_url', mode='before')
+    @classmethod
+    def coerce_to_str_or_none(cls, v):
+        if pd.isna(v) or v is None:
+            return None
+        return str(v).strip() if v != '' else None
 
-
-class ProductUpdate(BaseModel):
-    """Partial update for a product."""
-
-    name: Optional[str] = None
-    description: Optional[str] = None
-    price: Optional[float] = None
-    characteristics: Optional[Dict[str, Any]] = None
+    # original_id тоже на всякий случай
+    @field_validator('original_id', mode='before')
+    @classmethod
+    def original_id_to_str(cls, v):
+        if pd.isna(v) or v is None:
+            return ""
+        return str(v)

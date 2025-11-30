@@ -1,96 +1,74 @@
+// frontend/src/components/product/ProductList.tsx
 import * as React from 'react';
-
-import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
 import { useProductsStore } from '@/hooks/use-products-store';
 import { ProductCard } from '@/components/product/ProductCard';
+import { Skeleton } from '@/components/ui/skeleton';
+import { AlertCircle } from 'lucide-react';
 
 export function ProductList() {
-  const productsRaw = useProductsStore((s) => s.products);
-  const products = productsRaw ?? [];
-  const total = useProductsStore((s) => s.total) ?? 0;
-  const loading = useProductsStore((s) => s.loading) ?? false;
-  const loadingMore = useProductsStore((s) => s.loadingMore) ?? false;
-  const infinite = useProductsStore((s) => s.infinite) ?? true;
-  const pageSize = useProductsStore((s) => s.pageSize) ?? 20;
-  const setPageSize = useProductsStore((s) => s.setPageSize);
-  const setInfinite = useProductsStore((s) => s.setInfinite);
-  const fetchMore = useProductsStore((s) => s.fetchMore);
+    const groups = useProductsStore(s => s.groups);
+    const loading = useProductsStore(s => s.loading);
+    const initialized = useProductsStore(s => s.initialized);
+    const fetchGroups = useProductsStore(s => s.fetchGroups);
+    const total = useProductsStore(s => s.total);
+    const observer = React.useRef(null);
+    const lastElementRef = React.useCallback(node => {
+        if (loading) return;
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && groups.length < total) {
+                set({ page: get().page + 1 });
+                fetchGroups();
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [loading, groups.length, total]);
 
-  const sentinelRef = React.useRef<HTMLDivElement | null>(null);
+    // Если ещё ничего не загружено
+    if (!initialized) {
+        return (
+            <div className="text-center py-12 text-gray-500">
+                Загрузите файл для начала работы
+            </div>
+        );
+    }
 
-  React.useEffect(() => {
-    if (!infinite) return;
-    const el = sentinelRef.current;
-    if (!el) return;
-    const int = new IntersectionObserver((entries) => {
-      entries.forEach((ent) => {
-        if (ent.isIntersecting) {
-          void fetchMore();
-        }
-      });
-    });
-    int.observe(el);
-    return () => int.disconnect();
-  }, [infinite, fetchMore]);
+    // Пока грузим группы
+    if (loading && groups.length === 0) {
+        return (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {[...Array(12)].map((_, i) => (
+                    <div key={i} className="space-y-3">
+                        <Skeleton className="h-48 w-full rounded-xl" />
+                        <Skeleton className="h-4 w-3/4" />
+                        <Skeleton className="h-4 w-1/2" />
+                    </div>
+                ))}
+            </div>
+        );
+    }
 
-  return (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between gap-3">
-        <label className="flex items-center gap-2 text-sm">
-          Показать на странице:
-          <select
-            className="rounded-md border px-2 py-1 text-sm"
-            value={pageSize}
-            onChange={(e) => setPageSize(Number(e.target.value))}
-          >
-            {[10, 20, 30, 50].map((n) => (
-              <option key={n} value={n}>
-                {n}
-              </option>
+    // Если групп нет
+    if (groups.length === 0) {
+        return (
+            <div className="text-center py-20">
+                <AlertCircle className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                <p className="text-lg text-gray-600">Группы товаров не найдены</p>
+                <p className="text-sm text-gray-500 mt-2">
+                    Попробуйте переагрегировать с меньшей строгостью
+                </p>
+            </div>
+        );
+    }
+
+    // Остальной код как был, в grid добавить ref на последний элемент
+    return (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {groups.map((group, index) => (
+                <div key={group.id} ref={index === groups.length - 1 ? lastElementRef : null}>
+                    <ProductCard group={group} />
+                </div>
             ))}
-          </select>
-        </label>
-        <label className="flex items-center gap-2 text-sm">
-          <input
-            type="checkbox"
-            checked={infinite}
-            onChange={(e) => setInfinite(e.target.checked)}
-          />
-          Автоподгрузка
-        </label>
-      </div>
-
-      {loading && products.length === 0 ? (
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <Skeleton key={i} className="h-28 w-full rounded-lg" />
-          ))}
         </div>
-      ) : (
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
-          {products.map((g) => (
-            <ProductCard key={g.id} group={g} />
-          ))}
-        </div>
-      )}
-
-      {!infinite ? (
-        <div className="flex justify-center">
-          <Button
-            onClick={() => void fetchMore()}
-            disabled={loadingMore || products.length >= total}
-          >
-            {products.length >= total
-              ? 'Больше нет'
-              : loadingMore
-                ? 'Загрузка...'
-                : 'Загрузить еще'}
-          </Button>
-        </div>
-      ) : (
-        <div ref={sentinelRef} />
-      )}
-    </div>
-  );
+    );
 }

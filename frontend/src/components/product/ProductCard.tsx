@@ -1,98 +1,79 @@
+// frontend/src/components/product/ProductCard.tsx
 import * as React from 'react';
-import { Copy, Edit, Trash2 } from 'lucide-react';
+import { Copy, Edit, Trash2, Package } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-
 import { Button } from '@/components/ui/button';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
-import type { ProductGroup } from '@/types/product';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
 import { useProductsStore } from '@/hooks/use-products-store';
 
-export function ProductCard({ group }: { group: ProductGroup }) {
-  const navigate = useNavigate();
-  const deleteProduct = useProductsStore((s) => s.deleteProduct);
-  const duplicateProduct = useProductsStore((s) => s.duplicateProduct);
-  const [openDel, setOpenDel] = React.useState(false);
+type GroupFromBackend = {
+    id: string;
+    name: string;
+    representative_id: number;
+    product_ids: number[];
+    score?: number;
+    user_score?: number | null;
+    significant_features?: string[];
+};
 
-  const v = group.variants?.[0];
+export function ProductCard({ group }: { group: GroupFromBackend }) {
+    const navigate = useNavigate();
+    const deleteGroup = useProductsStore((s) => s.deleteGroup);
+    const rateGroup = useProductsStore((s) => s.rateGroup);
+    const [openDel, setOpenDel] = React.useState(false);
+    const [localScore, setLocalScore] = React.useState(group.user_score || 0);
 
-  const statusColor = (s: string) => {
-    switch (s) {
-      case 'approved':
-        return 'var(--green)';
-      case 'rejected':
-        return 'var(--danger)';
-      case 'in_review':
-        return 'var(--orange)';
-      default:
-        return 'var(--sea-clear)';
-    }
-  };
+    const variantCount = group.product_ids.length;
+    const isGoodGroup = variantCount > 1;
 
-  return (
-    <div className="border-muted bg-card text-card-foreground group rounded-lg border p-3 transition-shadow hover:shadow-xs">
-      <div className="flex items-start gap-3">
-        <div className="size-16 overflow-hidden rounded-md bg-[var(--pale-blue)]">
-          {v?.imageUrl ? (
-            <img src={v.imageUrl} alt={group.title} className="size-full object-cover" />
-          ) : null}
-        </div>
-        <div className="min-w-0 flex-1">
-          <div className="mb-1 flex items-center justify-between gap-2">
-            <div className="truncate font-medium" title={group.title}>
-              {group.title}
+    const handleRate = (newScore) => {
+        setLocalScore(newScore);
+        rateGroup(group.id, newScore);
+    };
+
+    return (
+        <Card className="overflow-hidden transition-all hover:shadow-lg border-2 hover:border-blue-200 cursor-pointer">
+            <div onClick={() => navigate(`/product/${group.id}`)} className="block">
+                <div className="bg-gray-100 border-b h-48 flex items-center justify-center relative">
+                    <Package className="w-16 h-16 text-gray-400" />
+                    {isGoodGroup && (
+                        <Badge className="absolute top-2 right-2 bg-blue-600 text-white">
+                            {variantCount} вариантов
+                        </Badge>
+                    )}
+                </div>
+                <CardContent className="p-4">
+                    <h3 className="font-medium text-sm line-clamp-2 mb-2">
+                        {group.name || 'Без названия'}
+                    </h3>
+                    <div className="flex items-center gap-3 text-xs text-gray-600">
+                        <span>ID: {group.id}</span>
+                    </div>
+                    {/* Оценка */}
+                    <div className="mt-2 flex items-center gap-1">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                            <span
+                                key={star}
+                                className={`text-xs cursor-pointer ${star <= localScore ? 'text-yellow-500' : 'text-gray-300'}`}
+                                onClick={(e) => { e.stopPropagation(); handleRate(star); }}
+                            >
+                                ★
+                            </span>
+                        ))}
+                    </div>
+                </CardContent>
             </div>
-            <div className="flex items-center gap-2">
-              {v?.status ? (
-                <span
-                  className="rounded-full px-2 py-0.5 text-xs text-white"
-                  style={{ backgroundColor: statusColor(v.status) }}
-                >
-                  {v.status}
-                </span>
-              ) : null}
-              <span className="text-xs opacity-70">ID: {group.id}</span>
+            <div className="px-4 pb-4 flex gap-2">
+                <Button size="sm" variant="outline" className="flex-1" onClick={(e) => { e.stopPropagation(); navigate(`/product/${group.id}`); }}>
+                    <Edit className="w-4 h-4 mr-1" /> Открыть
+                </Button>
+                <Button size="sm" variant="destructive" onClick={(e) => { e.stopPropagation(); setOpenDel(true); }}>
+                    <Trash2 className="w-4 h-4" />
+                </Button>
             </div>
-          </div>
-          <div className="text-xs opacity-80">
-            {v && v.attributes
-              ? Object.entries(v.attributes)
-                  .slice(0, 3)
-                  .map(([k, val]) => (
-                    <span key={k} className="mr-2">
-                      {k}: {String(val)}
-                    </span>
-                  ))
-              : 'Нет параметров'}
-          </div>
-          <div className="mt-3 flex gap-2">
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() =>
-                navigate(`/product/${group.id}${v ? `?card=${encodeURIComponent(v.id)}` : ''}`)
-              }
-            >
-              <Edit className="mr-1 size-4" /> Редактировать
-            </Button>
-            <Button size="sm" variant="outline" onClick={async () => void duplicateProduct(group)}>
-              <Copy className="mr-1 size-4" /> Дублировать
-            </Button>
-            <Button size="sm" variant="destructive" onClick={() => setOpenDel(true)}>
-              <Trash2 className="mr-1 size-4" /> Удалить
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      <ConfirmDialog
-        open={openDel}
-        onOpenChange={setOpenDel}
-        title="Удалить карточку?"
-        description="Действие необратимо."
-        onConfirm={async () => {
-          await deleteProduct(group.id);
-        }}
-      />
-    </div>
-  );
+            <ConfirmDialog open={openDel} onOpenChange={setOpenDel} title="Удалить группу?" onConfirm={() => deleteGroup(group.id)} />
+        </Card>
+    );
 }

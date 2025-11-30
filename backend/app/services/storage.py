@@ -1,157 +1,378 @@
-"""In-memory storage for products and groups.
-
-This module provides a simple in-memory storage that can be replaced by a
-persistent database in the future (e.g., PostgreSQL).
-"""
-from __future__ import annotations
-
-from typing import Any, Dict, Iterable, List, Optional, Tuple
-
-from pydantic import BaseModel
-
+# backend/app/services/storage.py
+import sqlite3
+from pathlib import Path
+import pandas as pd
+import json
+from typing import Dict, List, Optional, Any
+from app.models.product import Product
 from app.models.group import ProductGroup
-from app.models.product import Product, ProductUpdate, ProductVariant
+from app.services.grouping_core import aggregate_df
+import logging
 
-
-def _dump(model: BaseModel) -> Dict[str, Any]:
-    """Return a dict of model fields excluding unset, compatible with Pydantic v1/v2."""
-    if hasattr(model, "model_dump"):
-        return model.model_dump(exclude_unset=True)  # type: ignore[attr-defined]
-    return model.dict(exclude_unset=True)  # type: ignore[no-any-return]
-
-
-def _copy_update(model: BaseModel, update: Dict[str, Any]) -> BaseModel:
-    """Compatibility wrapper for model copy with update across Pydantic v1/v2."""
-    if hasattr(model, "model_copy"):
-        return model.model_copy(update=update)  # type: ignore[attr-defined]
-    return model.copy(update=update)
-
+logger = logging.getLogger(__name__)
 
 class Storage:
-    """Stateful in-memory storage of products and groups."""
+    def __init__(self):
+        self.db_path = Path('data/catalog.db')
+        self.db_path.parent.mkdir(exist_ok=True)
+        self.conn = sqlite3.connect(self.db_path, check_same_thread=False)
+        self.cursor = self.conn.cursor()
+        self._init_db()
 
-    def __init__(self) -> None:
-        self.products: Dict[int, Product] = {}
-        self.groups: Dict[int, ProductGroup] = {}
-        self._next_product_id = 1
-        self._next_variant_id = 1
-        self._next_group_id = 1
+    def _init_db(self):
+        # Таблица продуктов (существующая)
+        self.cursor.execute('''
+        CREATE TABLE IF NOT EXISTS products (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            original_id TEXT,
+            name TEXT,
+            model TEXT,
+            manufacturer TEXT,
+            country TEXT,
+            category_id TEXT,
+            category_name TEXT,
+            image_url TEXT,
+            characteristics TEXT,
+            group_id TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )''')
+    
+        # Таблица групп (существующая)
+        self.cursor.execute('''
+        CREATE TABLE IF NOT EXISTS groups (
+            group_id TEXT PRIMARY KEY,
+            name TEXT,
+            representative_id INTEGER,
+            product_count INTEGER DEFAULT 0,
+            score REAL DEFAULT 0.0,
+            user_score INTEGER,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (representative_id) REFERENCES products (id)
+        )''')
+    
+        # Добавьте эту таблицу для групповых атрибутов
+        self.cursor.execute('''
+        CREATE TABLE IF NOT EXISTS group_attributes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            group_id TEXT,
+            attribute_name TEXT,
+            attribute_value TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (group_id) REFERENCES groups (group_id)
+        )''')
+    
+        self.conn.commit()
 
-    # ----------------------- Products -----------------------
-    def add_products(self, items: Iterable[Product]) -> int:
-        """Add a batch of products, assigning new IDs. Returns number added."""
-        count = 0
-        for item in items:
-            new_id = self._next_product_id
-            self._next_product_id += 1
-            stored = _copy_update(item, {"id": new_id})
-            self.products[new_id] = stored
-            count += 1
-        return count
+    def add_products(self, df: pd.DataFrame):
+        """Добавление продуктов в БД"""
+        self.clear()
+        
+        for _, row in df.iterrows():
+            self.cursor.execute('''
+            INSERT INTO products 
+            (original_id, name, model, manufacturer, country, category_id, category_name, image_url, characteristics)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ''', (
+                str(row.get('id сте', '')),
+                str(row.get('название сте', '')),
+                str(row.get('модель', '')),
+                str(row.get('производитель', '')),
+                str(row.get('страна происхождения', '')),
+                str(row.get('id категории', '')),
+                str(row.get('название категории', '')),
+                str(row.get('ссылка на картинку сте', '')),
+                str(row.get('характеристики', ''))
+            ))
+        self.conn.commit()
+        logger.info(f"Added {len(df)} products to database")
 
-    def get_all_products(self) -> List[Product]:
-        """Return all stored products."""
-        return list(self.products.values())
+    def apply_groups(self, groups: Dict[str, List[int]]):
+        """Применение групп к продуктам в БД"""
+        # Очистка старых групп
+        self.cursor.execute('DELETE FROM groups')
+        self.cursor.execute('UPDATE products SET group_id = NULL')
+        
+        # Создание новых групп
+        for gid, indices in groups.items():
+            if not indices:
+                continue
+                
+            # Получаем первый продукт как представителя
+            first_idx = indices[0]
+            product = self.get_product_by_index(first_idx)
+            if not product:
+                continue
+                
+            rep_id = product['id']
+            name = product['name']
+            
+            # Создаем группу
+            self.cursor.execute(
+                'INSERT INTO groups (group_id, name, representative_id, product_count) VALUES (?, ?, ?, ?)',
+                (gid, name, rep_id, len(indices))
+            )
+            
+            # Обновляем продукты
+            for idx in indices:
+                product = self.get_product_by_index(idx)
+                if product:
+                    self.cursor.execute(
+                        'UPDATE products SET group_id = ? WHERE id = ?',
+                        (gid, product['id'])
+                    )
+        
+        self.conn.commit()
+        logger.info(f"Applied {len(groups)} groups to database")
 
-    def get_filtered(self, query: Optional[str], limit: int, offset: int) -> Tuple[List[Product], int]:
-        """Return filtered and paginated products and the total count."""
-        items = list(self.products.values())
-        if query:
-            q = query.lower().strip()
-            def matches(p: Product) -> bool:
-                if q in p.name.lower():
-                    return True
-                if p.description and q in p.description.lower():
-                    return True
-                if q in str(p.price).lower():
-                    return True
-                for key, value in p.characteristics.items():
-                    if q in str(key).lower() or q in str(value).lower():
-                        return True
-                for var in p.variants:
-                    if var.name and q in var.name.lower():
-                        return True
-                return False
-            items = [p for p in items if matches(p)]
-        total = len(items)
-        start = max(0, offset)
-        end = start + max(0, limit)
-        return items[start:end], total
+    def get_product_by_index(self, idx: int) -> Optional[Dict]:
+        """Получить продукт по индексу (для совместимости)"""
+        self.cursor.execute('SELECT * FROM products LIMIT 1 OFFSET ?', (idx,))
+        row = self.cursor.fetchone()
+        if not row:
+            return None
+            
+        columns = [desc[0] for desc in self.cursor.description]
+        return dict(zip(columns, row))
 
-    def get_product(self, product_id: int) -> Product:
-        """Get a product by ID."""
-        return self.products[product_id]
+    def get_all_products_df(self) -> pd.DataFrame:
+        """Получить все продукты как DataFrame"""
+        return pd.read_sql('SELECT * FROM products', self.conn)
 
-    def update_product(self, product_id: int, data: ProductUpdate) -> Product:
-        """Update product fields from a `ProductUpdate` model and return the updated product."""
-        current = self.products[product_id]
-        update_data = _dump(data)
-        updated = _copy_update(current, update_data)
-        self.products[product_id] = updated
-        return updated
+    def search_groups(self, query: str = None, category: str = None, filters: dict = None, offset: int = 0, limit: int = 20):
+        try:
+            # Простой запрос для получения групп
+            query_sql = """
+                SELECT group_id, name, product_count, created_at 
+                FROM groups 
+                ORDER BY product_count DESC 
+                LIMIT ? OFFSET ?
+            """
+        
+            groups = []
+            for group in self.cursor.execute(query_sql, [limit, offset]).fetchall():
+                group_dict = {
+                    "group_id": group[0],
+                    "name": group[1],
+                    "product_count": group[2],
+                    "created_at": group[3],
+                }
 
-    def delete_product(self, product_id: int) -> None:
-        """Delete a product by ID."""
-        del self.products[product_id]
+                # Получаем продукты в этой группе (ограничиваем количество для производительности)
+                products = self.cursor.execute(
+                    "SELECT id, name, category_name, image_url FROM products WHERE group_id = ? LIMIT 10",
+                    (group_dict['group_id'],)
+                ).fetchall()
 
-    # ----------------------- Variants -----------------------
-    def add_variant(self, product_id: int) -> ProductVariant:
-        """Create a variant from a base product and return it."""
-        product = self.products[product_id]
-        variant_id = self._next_variant_id
-        self._next_variant_id += 1
-        variant = ProductVariant(
-            id=variant_id,
-            name=f"{product.name} (variant {variant_id})",
-            price=product.price,
-            characteristics=dict(product.characteristics),
-            is_active=True,
+                products_list = []
+                for product in products:
+                    product_dict = {
+                        "product_id": product[0],
+                        "name": product[1],
+                        "category": product[2],
+                        "image_url": product[3]
+                    }
+                    products_list.append(product_dict)
+
+                group_dict['products'] = products_list
+                group_dict['attributes'] = {}  # Пустые атрибуты для демо
+
+                groups.append(group_dict)
+
+            # ВАЖНО: возвращаем список, а не словарь
+            return groups
+        
+        except Exception as e:
+            logger.error(f"Error in search_groups: {e}")
+            return []
+
+
+    def get_group(self, group_id: str) -> Optional[ProductGroup]:
+        """Получить группу по ID"""
+        row = self.cursor.execute(
+            'SELECT * FROM groups WHERE group_id = ?', (group_id,)
+        ).fetchone()
+        
+        if not row:
+            return None
+            
+        columns = [desc[0] for desc in self.cursor.description]
+        group_dict = dict(zip(columns, row))
+        
+        # Продукты группы
+        product_rows = self.cursor.execute(
+            'SELECT id FROM products WHERE group_id = ?', (group_id,)
+        ).fetchall()
+        product_ids = [p[0] for p in product_rows]
+        
+        return ProductGroup(
+            id=group_dict['group_id'],
+            name=group_dict['name'],
+            representative_id=group_dict['representative_id'],
+            product_ids=product_ids,
+            score=group_dict['score'],
+            user_score=group_dict['user_score']
         )
-        product.variants.append(variant)
-        # Persist the updated product
-        self.products[product_id] = product
-        return variant
 
-    def update_variant(self, product_id: int, variant_id: int, data: Dict[str, Any]) -> ProductVariant:
-        """Update a product variant and return it."""
-        product = self.products[product_id]
-        for idx, var in enumerate(product.variants):
-            if var.id == variant_id:
-                allowed = {k: v for k, v in data.items() if k in {"name", "price", "characteristics", "is_active"}}
-                updated = _copy_update(var, allowed)  # type: ignore[assignment]
-                product.variants[idx] = updated
-                self.products[product_id] = product
-                return updated
-        raise KeyError(f"Variant {variant_id} not found for product {product_id}")
+    # Остальные методы остаются примерно такими же, но с улучшенной обработкой ошибок
+    def rate_group(self, group_id: str, score: int):
+        try:
+            self.cursor.execute(
+                'UPDATE groups SET user_score = ? WHERE group_id = ?',
+                (score, group_id)
+            )
+            self.conn.commit()
+        except Exception as e:
+            logger.error(f"Error rating group {group_id}: {e}")
 
-    def delete_variant(self, product_id: int, variant_id: int) -> None:
-        """Delete a variant from a product."""
-        product = self.products[product_id]
-        product.variants = [v for v in product.variants if v.id != variant_id]
-        self.products[product_id] = product
+    def save_groups(self, groups: List[ProductGroup]):
+        """Сохраняет группы в базу данных"""
+        try:
+            for group in groups:
+                # Сохраняем группу
+                self.cursor.execute('''
+                INSERT OR REPLACE INTO groups (group_id, name, representative_id, product_count, score, user_score)
+                VALUES (?, ?, ?, ?, ?, ?)
+                ''', (
+                    group.group_id,
+                    group.name,
+                    group.representative_id,
+                    len(group.products),
+                    group.score,
+                    group.user_score
+                ))
+            
+                # Сохраняем атрибуты группы
+                for attr_name, attr_value in group.attributes.items():
+                    self.cursor.execute('''
+                    INSERT OR REPLACE INTO group_attributes (group_id, attribute_name, attribute_value)
+                    VALUES (?, ?, ?)
+                    ''', (group.group_id, attr_name, str(attr_value)))
+            
+                # Обновляем продукты с group_id
+                for product in group.products:
+                    self.cursor.execute(
+                        'UPDATE products SET group_id = ? WHERE id = ?',
+                        (group.group_id, product.id)
+                    )
+        
+            self.conn.commit()
+            logger.info(f"Saved {len(groups)} groups to database")
+        
+        except Exception as e:
+            logger.error(f"Error saving groups: {e}")
+            raise
+    def delete_group(self, group_id: str):
+        try:
+            self.cursor.execute('UPDATE products SET group_id = NULL WHERE group_id = ?', (group_id,))
+            self.cursor.execute('DELETE FROM groups WHERE group_id = ?', (group_id,))
+            self.conn.commit()
+        except Exception as e:
+            logger.error(f"Error deleting group {group_id}: {e}")
 
-    # ----------------------- Groups -----------------------
-    def save_groups(self, groups: Iterable[ProductGroup]) -> int:
-        """Replace current groups with the provided ones, assigning new IDs."""
-        self.groups.clear()
-        self._next_group_id = 1
-        count = 0
-        for group in groups:
-            gid = self._next_group_id
-            self._next_group_id += 1
-            stored = _copy_update(group, {"id": gid})
-            self.groups[gid] = stored
-            count += 1
-        return count
+    def create_product(self, product_data: dict) -> int:
+        """Создание нового продукта с автоматическим определением группы"""
+        try:
+            self.cursor.execute('''
+            INSERT INTO products 
+            (original_id, name, model, manufacturer, country, category_id, category_name, image_url, characteristics)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ''', (
+                product_data.get('original_id', ''),
+                product_data.get('name', ''),
+                product_data.get('model', ''),
+                product_data.get('manufacturer', ''),
+                product_data.get('country', ''),
+                product_data.get('category_id', ''),
+                product_data.get('category_name', ''),
+                product_data.get('image_url', ''),
+                product_data.get('characteristics', '')
+            ))
+            new_id = self.cursor.lastrowid
+            self.conn.commit()
+            
+            # Автоматическое определение группы
+            self._auto_assign_group(new_id)
+            
+            return new_id
+        except Exception as e:
+            logger.error(f"Error creating product: {e}")
+            raise
 
-    def list_groups(self) -> List[ProductGroup]:
-        """Return all groups."""
-        return list(self.groups.values())
+    def _auto_assign_group(self, product_id: int):
+        """Автоматическое назначение группы для продукта"""
+        try:
+            # Получаем все группы и их продукты для сравнения
+            all_groups = self.cursor.execute('SELECT group_id FROM groups').fetchall()
+            product = self.cursor.execute('SELECT * FROM products WHERE id = ?', (product_id,)).fetchone()
+            
+            if not product:
+                return
+                
+            # Простая логика сопоставления - в реальности нужно использовать grouping_core
+            # Временная заглушка - создаем новую группу
+            new_group_id = f"manual_{product_id}"
+            self.cursor.execute(
+                'INSERT INTO groups (group_id, name, representative_id, product_count) VALUES (?, ?, ?, 1)',
+                (new_group_id, product[2], product_id)  # product[2] - name
+            )
+            self.cursor.execute(
+                'UPDATE products SET group_id = ? WHERE id = ?',
+                (new_group_id, product_id)
+            )
+            self.conn.commit()
+            
+        except Exception as e:
+            logger.error(f"Error auto-assigning group: {e}")
 
-    def get_group(self, group_id: int) -> ProductGroup:
-        """Return a single group by ID."""
-        return self.groups[group_id]
+    def update_product(self, product_id: int, product_data: dict):
+        """Обновление продукта"""
+        try:
+            self.cursor.execute('''
+            UPDATE products SET 
+            name=?, model=?, manufacturer=?, country=?, category_id=?, category_name=?, image_url=?, characteristics=?
+            WHERE id=?
+            ''', (
+                product_data.get('name'),
+                product_data.get('model'),
+                product_data.get('manufacturer'),
+                product_data.get('country'),
+                product_data.get('category_id'),
+                product_data.get('category_name'),
+                product_data.get('image_url'),
+                product_data.get('characteristics'),
+                product_id
+            ))
+            self.conn.commit()
+        except Exception as e:
+            logger.error(f"Error updating product {product_id}: {e}")
+            raise
 
+    def delete_product(self, product_id: int):
+        """Удаление продукта"""
+        try:
+            # Получаем группу продукта
+            group_row = self.cursor.execute(
+                'SELECT group_id FROM products WHERE id = ?', (product_id,)
+            ).fetchone()
+            
+            self.cursor.execute('DELETE FROM products WHERE id = ?', (product_id,))
+            
+            # Обновляем счетчик группы
+            if group_row and group_row[0]:
+                self.cursor.execute(
+                    'UPDATE groups SET product_count = product_count - 1 WHERE group_id = ?',
+                    (group_row[0],)
+                )
+                
+            self.conn.commit()
+        except Exception as e:
+            logger.error(f"Error deleting product {product_id}: {e}")
+            raise
 
-# Singleton storage instance for the application runtime
+    def clear(self):
+        """Очистка всех данных"""
+        self.cursor.execute('DELETE FROM products')
+        self.cursor.execute('DELETE FROM groups')
+        self.conn.commit()
+
 storage = Storage()

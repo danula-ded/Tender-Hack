@@ -1,0 +1,975 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\MyWorks\\Tender-Hack\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\backend\\app\\services\\grouping_v2.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\app\\services\\grouping_v2.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\backend\\app\\services\\storage.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\app\\services\\storage.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\hooks\\use-products-store.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\hooks\\use-products-store.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\App.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\App.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\backend\\requirements.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\requirements.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\backend\\app\\api\\upload.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\app\\api\\upload.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\backend\\app\\api\\groups.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\app\\api\\groups.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\sidebar\\Filters.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\sidebar\\Filters.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\product\\ProductCard.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\product\\ProductCard.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\App.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\App.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\sidebar\\Sidebar.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\sidebar\\Sidebar.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\pages\\CreateProduct.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\CreateProduct.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\product\\ProductList.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\product\\ProductList.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\product\\ProductDetail.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\product\\ProductDetail.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\pages\\ProductPage.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\ProductPage.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\backend\\app\\api\\products.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\app\\api\\products.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\backend\\app\\api\\download.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\app\\api\\download.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\Dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\Dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\main.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\main.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\types\\product.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\types\\product.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\services\\upload.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\services\\upload.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\services\\api.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\services\\api.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\pages\\MainPage.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\MainPage.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\hooks\\use-mobile.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\hooks\\use-mobile.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\config\\paths.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\config\\paths.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\system\\ErrorBoundary.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\system\\ErrorBoundary.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\sidebar\\SidebarItem.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\sidebar\\SidebarItem.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\sidebar\\FileSwitcher.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\sidebar\\FileSwitcher.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\product\\SearchInput.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\product\\SearchInput.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\file\\FileDrop.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\file\\FileDrop.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\backend\\Dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\Dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\backend\\app\\main.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\app\\main.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\backend\\app\\services\\preprocessor.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\app\\services\\preprocessor.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\backend\\app\\services\\grouping_core.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\app\\services\\grouping_core.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\backend\\app\\models\\product.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\app\\models\\product.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\backend\\app\\models\\group.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\app\\models\\group.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\backend\\app\\core\\config.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\app\\core\\config.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\backend\\app\\api\\variants.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\app\\api\\variants.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\src\\pages\\MainPage (2).tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\MainPage (2).tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\backend\\app\\__init__.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\app\\__init__.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\backend\\main.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\main.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\backend\\app\\api\\__init__.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\app\\api\\__init__.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\vite.config.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\vite.config.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\backend\\app\\services\\grouping_core_ALL_MINI.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\app\\services\\grouping_core_ALL_MINI.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\.eslintignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\.eslintignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\backend\\app\\services\\!OLD_parser.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\app\\services\\!OLD_parser.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\backend\\app\\core\\!OLD_db.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\app\\core\\!OLD_db.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\ai_frontend_product_prompt.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\ai_frontend_product_prompt.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\front.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\front.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\eslint.config.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\eslint.config.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\tsconfig.app.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\tsconfig.app.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\tsconfig.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\tsconfig.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\frontend\\tsconfig.node.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\tsconfig.node.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\MyWorks\\Tender-Hack\\backend\\app\\core\\__init__.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\app\\core\\__init__.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 9,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "App.css",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\App.css",
+              "RelativeDocumentMoniker": "frontend\\src\\App.css",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\App.css",
+              "RelativeToolTip": "frontend\\src\\App.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-11-29T22:51:44.339Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Filters.tsx",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\sidebar\\Filters.tsx",
+              "RelativeDocumentMoniker": "frontend\\src\\components\\sidebar\\Filters.tsx",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\sidebar\\Filters.tsx",
+              "RelativeToolTip": "frontend\\src\\components\\sidebar\\Filters.tsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T12:11:02.56Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ProductCard.tsx",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\product\\ProductCard.tsx",
+              "RelativeDocumentMoniker": "frontend\\src\\components\\product\\ProductCard.tsx",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\product\\ProductCard.tsx",
+              "RelativeToolTip": "frontend\\src\\components\\product\\ProductCard.tsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADkAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T21:08:13.139Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "CreateProduct.tsx",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\pages\\CreateProduct.tsx",
+              "RelativeDocumentMoniker": "frontend\\src\\pages\\CreateProduct.tsx",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\pages\\CreateProduct.tsx",
+              "RelativeToolTip": "frontend\\src\\pages\\CreateProduct.tsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC8AAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T12:12:47.156Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "App.tsx",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\App.tsx",
+              "RelativeDocumentMoniker": "frontend\\src\\App.tsx",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\App.tsx",
+              "RelativeToolTip": "frontend\\src\\App.tsx",
+              "ViewState": "AgIAABMAAAAAAAAAAAAtwDEAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T12:14:35.763Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "groups.py",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\backend\\app\\api\\groups.py",
+              "RelativeDocumentMoniker": "backend\\app\\api\\groups.py",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\backend\\app\\api\\groups.py",
+              "RelativeToolTip": "backend\\app\\api\\groups.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-29T08:34:50.515Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "upload.py",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\backend\\app\\api\\upload.py",
+              "RelativeDocumentMoniker": "backend\\app\\api\\upload.py",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\backend\\app\\api\\upload.py",
+              "RelativeToolTip": "backend\\app\\api\\upload.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAUwAcAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-29T08:37:24.874Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "storage.py",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\backend\\app\\services\\storage.py",
+              "RelativeDocumentMoniker": "backend\\app\\services\\storage.py",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\backend\\app\\services\\storage.py",
+              "RelativeToolTip": "backend\\app\\services\\storage.py",
+              "ViewState": "AgIAAGkAAAAAAAAAAAAAAHMAAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-29T08:34:25.002Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "grouping_v2.py",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\backend\\app\\services\\grouping_v2.py",
+              "RelativeDocumentMoniker": "backend\\app\\services\\grouping_v2.py",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\backend\\app\\services\\grouping_v2.py",
+              "RelativeToolTip": "backend\\app\\services\\grouping_v2.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-29T22:16:41.728Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "requirements.txt",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\backend\\requirements.txt",
+              "RelativeDocumentMoniker": "backend\\requirements.txt",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\backend\\requirements.txt",
+              "RelativeToolTip": "backend\\requirements.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2025-11-29T22:36:45.119Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "use-products-store.ts",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\hooks\\use-products-store.ts",
+              "RelativeDocumentMoniker": "frontend\\src\\hooks\\use-products-store.ts",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\hooks\\use-products-store.ts",
+              "RelativeToolTip": "frontend\\src\\hooks\\use-products-store.ts",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAtwF8AAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T12:11:23.82Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ProductList.tsx",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\product\\ProductList.tsx",
+              "RelativeDocumentMoniker": "frontend\\src\\components\\product\\ProductList.tsx",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\product\\ProductList.tsx",
+              "RelativeToolTip": "frontend\\src\\components\\product\\ProductList.tsx",
+              "ViewState": "AgIAADMAAAAAAAAAAAAAAEgAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T12:09:25.577Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ProductDetail.tsx",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\product\\ProductDetail.tsx",
+              "RelativeDocumentMoniker": "frontend\\src\\components\\product\\ProductDetail.tsx",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\product\\ProductDetail.tsx*",
+              "RelativeToolTip": "frontend\\src\\components\\product\\ProductDetail.tsx*",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAowMwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T12:09:23.321Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "ProductPage.tsx",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\pages\\ProductPage.tsx",
+              "RelativeDocumentMoniker": "frontend\\src\\pages\\ProductPage.tsx",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\pages\\ProductPage.tsx",
+              "RelativeToolTip": "frontend\\src\\pages\\ProductPage.tsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T12:24:25.851Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "products.py",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\backend\\app\\api\\products.py",
+              "RelativeDocumentMoniker": "backend\\app\\api\\products.py",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\backend\\app\\api\\products.py",
+              "RelativeToolTip": "backend\\app\\api\\products.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-29T08:40:43.919Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Sidebar.tsx",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\sidebar\\Sidebar.tsx",
+              "RelativeDocumentMoniker": "frontend\\src\\components\\sidebar\\Sidebar.tsx",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\sidebar\\Sidebar.tsx",
+              "RelativeToolTip": "frontend\\src\\components\\sidebar\\Sidebar.tsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T12:11:08.427Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "download.py",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\backend\\app\\api\\download.py",
+              "RelativeDocumentMoniker": "backend\\app\\api\\download.py",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\backend\\app\\api\\download.py",
+              "RelativeToolTip": "backend\\app\\api\\download.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-29T08:41:26.741Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Dockerfile",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\Dockerfile",
+              "RelativeDocumentMoniker": "frontend\\Dockerfile",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\Dockerfile",
+              "RelativeToolTip": "frontend\\Dockerfile",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-11-29T12:06:39.801Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "main.tsx",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\main.tsx",
+              "RelativeDocumentMoniker": "frontend\\src\\main.tsx",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\main.tsx",
+              "RelativeToolTip": "frontend\\src\\main.tsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T12:25:02.556Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "product.ts",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\types\\product.ts",
+              "RelativeDocumentMoniker": "frontend\\src\\types\\product.ts",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\types\\product.ts",
+              "RelativeToolTip": "frontend\\src\\types\\product.ts",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAUwC8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T12:14:14.526Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "upload.ts",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\services\\upload.ts",
+              "RelativeDocumentMoniker": "frontend\\src\\services\\upload.ts",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\services\\upload.ts",
+              "RelativeToolTip": "frontend\\src\\services\\upload.ts",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAUwCYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T12:24:39.025Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "api.ts",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\services\\api.ts",
+              "RelativeDocumentMoniker": "frontend\\src\\services\\api.ts",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\services\\api.ts",
+              "RelativeToolTip": "frontend\\src\\services\\api.ts",
+              "ViewState": "AgIAABEAAAAAAAAAAAAUwE8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T12:13:42.462Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "MainPage.tsx",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\pages\\MainPage.tsx",
+              "RelativeDocumentMoniker": "frontend\\src\\pages\\MainPage.tsx",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\pages\\MainPage.tsx",
+              "RelativeToolTip": "frontend\\src\\pages\\MainPage.tsx",
+              "ViewState": "AgIAACsAAAAAAAAAAAAUwE4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T12:13:17.339Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "docker-compose.yml",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\docker-compose.yml",
+              "RelativeDocumentMoniker": "docker-compose.yml",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\docker-compose.yml",
+              "RelativeToolTip": "docker-compose.yml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003775|",
+              "WhenOpened": "2025-11-29T08:41:42.541Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "use-mobile.ts",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\hooks\\use-mobile.ts",
+              "RelativeDocumentMoniker": "frontend\\src\\hooks\\use-mobile.ts",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\hooks\\use-mobile.ts",
+              "RelativeToolTip": "frontend\\src\\hooks\\use-mobile.ts",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T12:11:21.193Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "paths.ts",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\config\\paths.ts",
+              "RelativeDocumentMoniker": "frontend\\src\\config\\paths.ts",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\config\\paths.ts",
+              "RelativeToolTip": "frontend\\src\\config\\paths.ts",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T12:23:50.02Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "ErrorBoundary.tsx",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\system\\ErrorBoundary.tsx",
+              "RelativeDocumentMoniker": "frontend\\src\\components\\system\\ErrorBoundary.tsx",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\system\\ErrorBoundary.tsx",
+              "RelativeToolTip": "frontend\\src\\components\\system\\ErrorBoundary.tsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T21:55:40.526Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "SidebarItem.tsx",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\sidebar\\SidebarItem.tsx",
+              "RelativeDocumentMoniker": "frontend\\src\\components\\sidebar\\SidebarItem.tsx",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\sidebar\\SidebarItem.tsx",
+              "RelativeToolTip": "frontend\\src\\components\\sidebar\\SidebarItem.tsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T21:55:14.153Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "FileSwitcher.tsx",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\sidebar\\FileSwitcher.tsx",
+              "RelativeDocumentMoniker": "frontend\\src\\components\\sidebar\\FileSwitcher.tsx",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\sidebar\\FileSwitcher.tsx",
+              "RelativeToolTip": "frontend\\src\\components\\sidebar\\FileSwitcher.tsx",
+              "ViewState": "AgIAACAAAAAAAAAAAAAUwEMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T12:10:52.224Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "SearchInput.tsx",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\product\\SearchInput.tsx",
+              "RelativeDocumentMoniker": "frontend\\src\\components\\product\\SearchInput.tsx",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\product\\SearchInput.tsx",
+              "RelativeToolTip": "frontend\\src\\components\\product\\SearchInput.tsx",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAUwDAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T12:09:28.124Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "FileDrop.tsx",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\file\\FileDrop.tsx",
+              "RelativeDocumentMoniker": "frontend\\src\\components\\file\\FileDrop.tsx",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\components\\file\\FileDrop.tsx",
+              "RelativeToolTip": "frontend\\src\\components\\file\\FileDrop.tsx",
+              "ViewState": "AgIAAJIAAAAAAAAAAAAUwLUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T12:08:25.99Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "Dockerfile",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\backend\\Dockerfile",
+              "RelativeDocumentMoniker": "backend\\Dockerfile",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\backend\\Dockerfile",
+              "RelativeToolTip": "backend\\Dockerfile",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-11-29T12:23:30.913Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "main.py",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\backend\\app\\main.py",
+              "RelativeDocumentMoniker": "backend\\app\\main.py",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\backend\\app\\main.py",
+              "RelativeToolTip": "backend\\app\\main.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-29T12:22:29.055Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "preprocessor.py",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\backend\\app\\services\\preprocessor.py",
+              "RelativeDocumentMoniker": "backend\\app\\services\\preprocessor.py",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\backend\\app\\services\\preprocessor.py",
+              "RelativeToolTip": "backend\\app\\services\\preprocessor.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHYAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-29T16:12:09.774Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "grouping_core.py",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\backend\\app\\services\\grouping_core.py",
+              "RelativeDocumentMoniker": "backend\\app\\services\\grouping_core.py",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\backend\\app\\services\\grouping_core.py",
+              "RelativeToolTip": "backend\\app\\services\\grouping_core.py",
+              "ViewState": "AgIAALIAAAAAAAAAAAAUwNUAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-29T08:33:02.628Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "product.py",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\backend\\app\\models\\product.py",
+              "RelativeDocumentMoniker": "backend\\app\\models\\product.py",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\backend\\app\\models\\product.py",
+              "RelativeToolTip": "backend\\app\\models\\product.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-29T12:21:55.057Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "group.py",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\backend\\app\\models\\group.py",
+              "RelativeDocumentMoniker": "backend\\app\\models\\group.py",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\backend\\app\\models\\group.py",
+              "RelativeToolTip": "backend\\app\\models\\group.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-29T12:21:50.048Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "config.py",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\backend\\app\\core\\config.py",
+              "RelativeDocumentMoniker": "backend\\app\\core\\config.py",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\backend\\app\\core\\config.py",
+              "RelativeToolTip": "backend\\app\\core\\config.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-29T08:30:37.752Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "variants.py",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\backend\\app\\api\\variants.py",
+              "RelativeDocumentMoniker": "backend\\app\\api\\variants.py",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\backend\\app\\api\\variants.py",
+              "RelativeToolTip": "backend\\app\\api\\variants.py",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAUwCcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-29T12:20:56.284Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "MainPage (2).tsx",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\pages\\MainPage (2).tsx",
+              "RelativeDocumentMoniker": "frontend\\src\\pages\\MainPage (2).tsx",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\src\\pages\\MainPage (2).tsx",
+              "RelativeToolTip": "frontend\\src\\pages\\MainPage (2).tsx",
+              "ViewState": "AgIAACcAAAAAAAAAAAAmwDkAAABQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T18:58:03.659Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "__init__.py",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\backend\\app\\__init__.py",
+              "RelativeDocumentMoniker": "backend\\app\\__init__.py",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\backend\\app\\__init__.py",
+              "RelativeToolTip": "backend\\app\\__init__.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-29T17:45:34.804Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "main.py",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\backend\\main.py",
+              "RelativeDocumentMoniker": "backend\\main.py",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\backend\\main.py",
+              "RelativeToolTip": "backend\\main.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-29T12:23:40.405Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "__init__.py",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\backend\\app\\api\\__init__.py",
+              "RelativeDocumentMoniker": "backend\\app\\api\\__init__.py",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\backend\\app\\api\\__init__.py",
+              "RelativeToolTip": "backend\\app\\api\\__init__.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-29T12:02:19.43Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "vite.config.ts",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\vite.config.ts",
+              "RelativeDocumentMoniker": "frontend\\vite.config.ts",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\vite.config.ts",
+              "RelativeToolTip": "frontend\\vite.config.ts",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-29T12:06:11.247Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "grouping_core_ALL_MINI.py",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\backend\\app\\services\\grouping_core_ALL_MINI.py",
+              "RelativeDocumentMoniker": "backend\\app\\services\\grouping_core_ALL_MINI.py",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\backend\\app\\services\\grouping_core_ALL_MINI.py",
+              "RelativeToolTip": "backend\\app\\services\\grouping_core_ALL_MINI.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-29T16:14:10.43Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": ".eslintignore",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\.eslintignore",
+              "RelativeDocumentMoniker": "frontend\\.eslintignore",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\.eslintignore",
+              "RelativeToolTip": "frontend\\.eslintignore",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-11-29T17:47:15.033Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 48,
+              "Title": "ai_frontend_product_prompt.md",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\ai_frontend_product_prompt.md",
+              "RelativeDocumentMoniker": "frontend\\ai_frontend_product_prompt.md",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\ai_frontend_product_prompt.md",
+              "RelativeToolTip": "frontend\\ai_frontend_product_prompt.md",
+              "ViewState": "AgIAALgAAAAAAAAAAAAIwNYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2025-11-29T12:15:19.167Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "!OLD_parser.py",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\backend\\app\\services\\!OLD_parser.py",
+              "RelativeDocumentMoniker": "backend\\app\\services\\!OLD_parser.py",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\backend\\app\\services\\!OLD_parser.py",
+              "RelativeToolTip": "backend\\app\\services\\!OLD_parser.py",
+              "ViewState": "AgIAAFIAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-29T08:36:15.936Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
+              "Title": "!OLD_db.py",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\backend\\app\\core\\!OLD_db.py",
+              "RelativeDocumentMoniker": "backend\\app\\core\\!OLD_db.py",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\backend\\app\\core\\!OLD_db.py",
+              "RelativeToolTip": "backend\\app\\core\\!OLD_db.py",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAACkAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-29T08:32:05.845Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 50,
+              "Title": "index.html",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\index.html",
+              "RelativeDocumentMoniker": "frontend\\index.html",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\index.html",
+              "RelativeToolTip": "frontend\\index.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-29T12:06:29.744Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 49,
+              "Title": "front.md",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\front.md",
+              "RelativeDocumentMoniker": "frontend\\front.md",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\front.md",
+              "RelativeToolTip": "frontend\\front.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2025-11-29T12:06:33.3Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "eslint.config.js",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\eslint.config.js",
+              "RelativeDocumentMoniker": "frontend\\eslint.config.js",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\eslint.config.js",
+              "RelativeToolTip": "frontend\\eslint.config.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-11-29T12:06:35.744Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 52,
+              "Title": "tsconfig.app.json",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\tsconfig.app.json",
+              "RelativeDocumentMoniker": "frontend\\tsconfig.app.json",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\tsconfig.app.json",
+              "RelativeToolTip": "frontend\\tsconfig.app.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-11-29T12:06:22.755Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 53,
+              "Title": "tsconfig.json",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\tsconfig.json",
+              "RelativeDocumentMoniker": "frontend\\tsconfig.json",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\tsconfig.json",
+              "RelativeToolTip": "frontend\\tsconfig.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-11-29T12:06:21.297Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 54,
+              "Title": "tsconfig.node.json",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\frontend\\tsconfig.node.json",
+              "RelativeDocumentMoniker": "frontend\\tsconfig.node.json",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\frontend\\tsconfig.node.json",
+              "RelativeToolTip": "frontend\\tsconfig.node.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-11-29T12:06:17.917Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 55,
+              "Title": "__init__.py",
+              "DocumentMoniker": "D:\\MyWorks\\Tender-Hack\\backend\\app\\core\\__init__.py",
+              "RelativeDocumentMoniker": "backend\\app\\core\\__init__.py",
+              "ToolTip": "D:\\MyWorks\\Tender-Hack\\backend\\app\\core\\__init__.py",
+              "RelativeToolTip": "backend\\app\\core\\__init__.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-29T08:30:42.658Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

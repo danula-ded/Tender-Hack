@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\backend",
+    "\\backend\\app",
+    "\\backend\\app\\api",
+    "\\backend\\app\\core",
+    "\\backend\\app\\models",
+    "\\backend\\app\\services",
+    "\\backend\\data",
+    "\\backend\\data\\temp",
+    "\\backend\\data\\uploaded"
+  ],
+  "PreviewInSolutionExplorer": false
+}

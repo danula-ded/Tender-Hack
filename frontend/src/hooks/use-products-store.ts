@@ -1,200 +1,98 @@
+// frontend/src/hooks/use-products-store.ts
 import { create } from 'zustand';
+import axios from 'axios';
+import { PATHS } from '@/config/paths';
 
-import {
-  createProduct as apiCreateProduct,
-  deleteProduct as apiDeleteProduct,
-  getProduct as apiGetProduct,
-  getProducts as apiGetProducts,
-  updateProduct as apiUpdateProduct,
-} from '@/services/api';
-import { uploadFile as svcUploadFile } from '@/services/upload';
-import type {
-  CreateProductPayload,
-  PagedResult,
-  ProductFilters,
-  ProductGroup,
-  ProductVariant,
-} from '@/types/product';
+export const useProductsStore = create((set, get) => ({
+    groups: [],
+    lastUploadWarnings: [],
+    total: 0,
+    page: 1,
+    pageSize: 20,
+    loading: false,
+    query: '',
+    currentGroup: undefined,
+    uploading: false,
+    uploadProgress: 0,
+    initialized: false,
+    fetchGroups: async (reset = false) => {
+        set({ loading: true });
+        const { query, pageSize, page } = get();
+        const offset = (page - 1) * pageSize;
+        const res = await axios.get(PATHS.groups.list, { params: { query, offset, limit: pageSize } });
+        set({
+            groups: reset ? res.data.groups : [...get().groups, ...res.data.groups],
+            total: res.data.total,
+            initialized: true,
+            loading: false,
+        });
+    },
+    fetchGroup: async (id) => {
+        const res = await axios.get(PATHS.groups.get(id));
+        set({ currentGroup: res.data });
+        return res.data;
+    },
+    setQuery: (q) => set({ query: q }),
 
-export type ProductsState = {
-  products: ProductGroup[];
-  total: number;
-  page: number;
-  pageSize: number;
-  infinite: boolean;
-  loading: boolean;
-  loadingMore: boolean;
-  query: string;
-  filters: ProductFilters;
-  currentGroup?: ProductGroup;
-  uploading: boolean;
-  uploadProgress: number;
-  initialized: boolean;
+    async upload(file: File, signal?: AbortSignal) {
+        set({ uploading: true, uploadProgress: 0 });
+        const formData = new FormData();
+        formData.append('file', file);               // ← важно именно имя "file"
+        // aggregated=false по умолчанию (всегда агрегируем)
+        formData.append('aggregated', 'false');
 
-  // actions
-  fetchProducts: (reset?: boolean) => Promise<void>;
-  fetchMore: () => Promise<void>;
-  fetchGroup: (id: string) => Promise<ProductGroup | undefined>;
-  setQuery: (q: string) => void;
-  setInfinite: (v: boolean) => void;
-  setPageSize: (n: number) => void;
-  createProduct: (payload: CreateProductPayload) => Promise<ProductGroup>;
-  deleteProduct: (id: string) => Promise<void>;
-  duplicateProduct: (group: ProductGroup) => Promise<ProductGroup>;
-  updateVariant: (groupId: string, variant: ProductVariant) => Promise<void>;
-  deleteVariant: (groupId: string, variantId: string) => Promise<void>;
-  upload: (file: File, signal?: AbortSignal) => Promise<void>;
-};
+        try {
+            const response = await axios.post(PATHS.upload, formData, {
+                signal,
+                headers: { 'Content-Type': 'multipart/form-data' },
+                onUploadProgress: (evt) => {
+                    if (evt.total) {
+                        set({ uploadProgress: Math.round((evt.loaded * 100) / evt.total) });
+                    }
+                },
+            });
+            // ← Вот здесь ловим warnings и передаём в FileDrop через store или напрямую
+            if (response.data.warnings && response.data.warnings.length > 0) {
+                // Можно добавить в store новое поле warnings, или использовать глобальный toast
+                // Но пока просто пробросим через локальное состояние в FileDrop
+                // Поэтому лучше — добавить в store:
+                set({ lastUploadWarnings: response.data.warnings });
+            }
 
-export const useProductsStore = create<ProductsState>()((set, get) => ({
-  products: [],
-  total: 0,
-  page: 1,
-  pageSize: 20,
-  infinite: true,
-  loading: false,
-  loadingMore: false,
-  query: '',
-  filters: {},
-  currentGroup: undefined,
-  uploading: false,
-  uploadProgress: 0,
-  initialized: false,
+            if (response.data.status === "ok") {
+                await get().fetchGroups(true);
+            }
+        } catch (err: unknown) {
+            if (axios.isCancel(err)) {
+                return;
+            }
 
-  async fetchProducts(reset = false) {
-    const state = get();
-    // Do not clear products immediately on reset to avoid hasData -> false flicker
-    set({ loading: true, ...(reset ? { page: 1 } : {}) });
-    const res: PagedResult<ProductGroup> = await apiGetProducts({
-      ...(state.filters || {}),
-      query: state.query || undefined,
-      page: reset ? 1 : state.page,
-      pageSize: state.pageSize,
-    });
-    set((s) => ({
-      products: reset ? res.items : [...s.products, ...res.items],
-      total: res.total,
-      page: reset ? 1 : s.page,
-      initialized: true,
-      loading: false,
-    }));
-  },
+            const error = err as AxiosError;
+            throw error;
+        } finally {
+            set({ uploading: false, uploadProgress: 0 });
+        }
 
-  async fetchMore() {
-    const s = get();
-    if (s.loadingMore) return;
-    const next = s.page + 1;
-    if (s.products.length >= s.total) return;
-    set({ loadingMore: true, page: next });
-    const res = await apiGetProducts({
-      ...(s.filters || {}),
-      query: s.query || undefined,
-      page: next,
-      pageSize: s.pageSize,
-    });
-    set((prev) => ({
-      products: [...prev.products, ...res.items],
-      total: res.total,
-      loadingMore: false,
-    }));
-  },
-
-  async fetchGroup(id: string) {
-    set({ loading: true });
-    try {
-      const grp = await apiGetProduct(id);
-      set({ currentGroup: grp });
-      return grp;
-    } finally {
-      set({ loading: false });
-    }
-  },
-
-  setQuery(q: string) {
-    set({ query: q });
-  },
-
-  setInfinite(v: boolean) {
-    set({ infinite: v });
-  },
-
-  setPageSize(n: number) {
-    set({ pageSize: n });
-  },
-
-  async createProduct(payload: CreateProductPayload) {
-    const created = await apiCreateProduct(payload);
-    set((s) => ({ products: [created, ...s.products], total: s.total + 1 }));
-    return created;
-  },
-
-  async deleteProduct(id: string) {
-    await apiDeleteProduct(id);
-    set((s) => ({
-      products: s.products.filter((p) => p.id !== id),
-      total: Math.max(0, s.total - 1),
-    }));
-  },
-
-  async duplicateProduct(group: ProductGroup) {
-    const created = await apiCreateProduct({ title: `${group.title} (copy)` });
-    set((s) => ({ products: [created, ...s.products], total: s.total + 1 }));
-    return created;
-  },
-
-  async updateVariant(groupId: string, variant: ProductVariant) {
-    // naive update by sending full group with replaced variant
-    const s = get();
-    const group = s.products.find((g) => g.id === groupId) || s.currentGroup;
-    if (!group) return;
-    const idx = group.variants.findIndex((v) => v.id === variant.id);
-    const updatedGroup: ProductGroup = {
-      ...group,
-      variants:
-        idx >= 0
-          ? group.variants.map((v) => (v.id === variant.id ? { ...variant } : v))
-          : [...group.variants, variant],
-    };
-    const saved = await apiUpdateProduct(groupId, { id: groupId, ...updatedGroup });
-    // update in state
-    set((s2) => ({
-      currentGroup: s2.currentGroup?.id === groupId ? saved : s2.currentGroup,
-      products: s2.products.map((g) => (g.id === groupId ? saved : g)),
-    }));
-  },
-
-  async deleteVariant(groupId: string, variantId: string) {
-    const s = get();
-    const group = s.products.find((g) => g.id === groupId) || s.currentGroup;
-    if (!group) return;
-    const updatedGroup: ProductGroup = {
-      ...group,
-      variants: group.variants.filter((v) => v.id !== variantId),
-    };
-    const saved = await apiUpdateProduct(groupId, { id: groupId, ...updatedGroup });
-    set((s2) => ({
-      currentGroup: s2.currentGroup?.id === groupId ? saved : s2.currentGroup,
-      products: s2.products.map((g) => (g.id === groupId ? saved : g)),
-    }));
-  },
-
-  async upload(file: File, signal?: AbortSignal) {
-    set({ uploading: true, uploadProgress: 0 });
-    try {
-      const res = await svcUploadFile(file, (p) => set({ uploadProgress: p }), signal);
-      // optional: poll processing endpoint
-      void res; // keep ts happy if not used
-      // After upload, refresh list
-      await get().fetchProducts(true);
-    } catch (e) {
-      // ignore abort errors
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const err = e as any;
-      if (err?.name !== 'CanceledError' && err?.message !== 'canceled') {
-        // swallow other errors, could add notification hook here
-      }
-    } finally {
-      set({ uploading: false });
-    }
-  },
+    },
+    reaggregate: async (strictness) => {
+        await axios.post(PATHS.groups.reaggregate, null, { params: { strictness } });
+        get().fetchGroups(true);
+    },
+    rateGroup: async (groupId, score) => {
+        await axios.post(PATHS.groups.rate(groupId), { score });
+    },
+    deleteGroup: async (groupId) => {
+        await axios.delete(PATHS.groups.delete(groupId));
+        get().fetchGroups(true);
+    },
+    createProduct: async (productData) => {
+        const res = await axios.post(PATHS.products.create, productData);
+        return res.data;
+    },
+    updateVariant: async (groupId, productData) => {
+        await axios.put(PATHS.products.update(productData.id), productData);
+    },
+    deleteVariant: async (groupId, productId) => {
+        await axios.delete(PATHS.products.delete(productId));
+    },
 }));

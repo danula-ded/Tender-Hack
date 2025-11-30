@@ -58,6 +58,13 @@ export function ProductDetail({ groupId }: { groupId: string }) {
     );
   }
 
+  const onDropToGroup = async (productId: number, targetGroupId: string) => {
+    await axios.post(`/api/groups/${currentGroup.id}/move`, null, {
+      params: { product_id: productId, target_group_id: targetGroupId }
+    });
+    // обновить локальное состояние
+  };
+
   const onSave = async () => {
     const attrs: Record<string, string> = {};
     for (const [k, v] of fields) {

@@ -1,27 +1,11 @@
-"""Models describing product groups used for aggregation results."""
-from __future__ import annotations
-
-from typing import Any, Dict, List
-
-from pydantic import BaseModel, Field
-
+from typing import List, Optional
+from pydantic import BaseModel
 
 class ProductGroup(BaseModel):
-    """Represents a group (cluster) of products."""
-
-    id: int
-    name: str
-    product_ids: List[int] = Field(default_factory=list)
-    score: float = 0.0
-    significant_features: List[str] = Field(default_factory=list)
-    meta: Dict[str, Any] = Field(default_factory=dict)
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Return a plain dict representation compatible with Pydantic v1/v2."""
-        if hasattr(self, "model_dump"):
-            return self.model_dump()  # type: ignore[attr-defined]
-        return self.dict()  # type: ignore[no-any-return]
-
-    def size(self) -> int:
-        """Return number of products in the group."""
-        return len(self.product_ids)
+    id: str                                      # card_123, fb_556 и т.д.
+    name: str                                    # общее название группы
+    representative_id: int                       # id продукта для превью
+    product_ids: List[int]                       # все продукты в группе
+    score: float = 0.0                           # автоматическая оценка качества (0-100)
+    user_score: Optional[int] = None             # 1-5 от модератора
+    significant_features: List[str] = []         # какие хар-ки были ключевыми

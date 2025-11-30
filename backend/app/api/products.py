@@ -1,58 +1,128 @@
-"""API endpoints for listing and managing products."""
-from __future__ import annotations
-
-from typing import List, Optional
-
-from fastapi import APIRouter, HTTPException, Query
+# backend/app/api/products.py
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-
-from app.models.product import Product, ProductUpdate
+from typing import Dict, Any, Optional
 from app.services.storage import storage
 
 router = APIRouter(prefix="/api/products", tags=["products"])
 
+class ProductCreate(BaseModel):
+    name: str
+    model: Optional[str] = None
+    manufacturer: Optional[str] = None
+    country: Optional[str] = None
+    category_id: Optional[str] = None
+    category_name: Optional[str] = None
+    image_url: Optional[str] = None
+    characteristics: Optional[Dict[str, str]] = None
 
-class ProductsListResponse(BaseModel):
-    """Response model for paginated product lists."""
+class ProductUpdate(BaseModel):
+    name: Optional[str] = None
+    model: Optional[str] = None
+    manufacturer: Optional[str] = None
+    country: Optional[str] = None
+    category_id: Optional[str] = None
+    category_name: Optional[str] = None
+    image_url: Optional[str] = None
+    characteristics: Optional[Dict[str, str]] = None
 
-    items: List[Product]
-    total: int
-
-
-@router.get("", response_model=ProductsListResponse)
-def list_products(
-    query: Optional[str] = Query(default=None, alias="q"),
-    limit: int = Query(default=50, ge=0),
-    offset: int = Query(default=0, ge=0),
-) -> ProductsListResponse:
-    """Return a paginated list of products filtered by optional query string."""
-    items, total = storage.get_filtered(query=query, limit=limit, offset=offset)
-    return ProductsListResponse(items=items, total=total)
-
-
-@router.get("/{product_id}", response_model=Product)
-def get_product(product_id: int) -> Product:
-    """Return product details by ID."""
+@router.post("")
+async def create_product(product_data: ProductCreate):
+    """Создание нового товара"""
     try:
-        return storage.get_product(product_id)
-    except KeyError as exc:
-        raise HTTPException(status_code=404, detail="Product not found") from exc
+        # Преобразуем характеристики в строку
+        chars_str = ""
+        if product_data.characteristics:
+            chars_str = ";".join([f"{k}:{v}" for k, v in product_data.characteristics.items()])
+        
+        product_dict = {
+            'original_id': f"manual_{len(storage.groups) + 1}",
+            'name': product_data.name,
+            'model': product_data.model,
+            'manufacturer': product_data.manufacturer,
+            'country': product_data.country,
+            'category_id': product_data.category_id,
+            'category_name': product_data.category_name,
+            'image_url': product_data.image_url,
+            'characteristics': chars_str
+        }
+        
+        product_id = storage.create_product(product_dict)
+        return {"id": product_id, "status": "created"}
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error creating product: {str(e)}")
 
-
-@router.put("/{product_id}", response_model=Product)
-def update_product(product_id: int, payload: ProductUpdate) -> Product:
-    """Apply partial updates to a product and return updated entity."""
+@router.put("/{product_id}")
+async def update_product(product_id: int, product_data: ProductUpdate):
+    """Обновление товара"""
     try:
-        return storage.update_product(product_id, payload)
-    except KeyError as exc:
-        raise HTTPException(status_code=404, detail="Product not found") from exc
-
+        # Получаем текущий продукт
+        storage.cursor.execute("SELECT * FROM products WHERE id = ?", (product_id,))
+        product = storage.cursor.fetchone()
+        if not product:
+            raise HTTPException(status_code=404, detail="Product not found")
+        
+        # Подготавливаем данные для обновления
+        update_data = {}
+        if product_data.name is not None:
+            update_data['name'] = product_data.name
+        if product_data.model is not None:
+            update_data['model'] = product_data.model
+        if product_data.manufacturer is not None:
+            update_data['manufacturer'] = product_data.manufacturer
+        if product_data.country is not None:
+            update_data['country'] = product_data.country
+        if product_data.category_id is not None:
+            update_data['category_id'] = product_data.category_id
+        if product_data.category_name is not None:
+            update_data['category_name'] = product_data.category_name
+        if product_data.image_url is not None:
+            update_data['image_url'] = product_data.image_url
+        if product_data.characteristics is not None:
+            update_data['characteristics'] = ";".join([f"{k}:{v}" for k, v in product_data.characteristics.items()])
+        
+        storage.update_product(product_id, update_data)
+        return {"status": "updated"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error updating product: {str(e)}")
 
 @router.delete("/{product_id}")
-def delete_product(product_id: int) -> dict:
-    """Delete a product and return status."""
+async def delete_product(product_id: int):
+    """Удаление товара"""
     try:
         storage.delete_product(product_id)
-    except KeyError as exc:
-        raise HTTPException(status_code=404, detail="Product not found") from exc
-    return {"status": "ok"}
+        return {"status": "deleted"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error deleting product: {str(e)}")
+
+@router.get("/{product_id}")
+async def get_product(product_id: int):
+    """Получение информации о товаре"""
+    try:
+        storage.cursor.execute("SELECT * FROM products WHERE id = ?", (product_id,))
+        product = storage.cursor.fetchone()
+        if not product:
+            raise HTTPException(status_code=404, detail="Product not found")
+        
+        columns = [desc[0] for desc in storage.cursor.description]
+        product_dict = dict(zip(columns, product))
+        
+        # Парсим характеристики
+        characteristics = {}
+        if product_dict.get('characteristics'):
+            for part in product_dict['characteristics'].split(';'):
+                if ':' in part:
+                    key, value = part.split(':', 1)
+                    characteristics[key.strip()] = value.strip()
+        
+        product_dict['characteristics_dict'] = characteristics
+        return product_dict
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error getting product: {str(e)}")
