@@ -25,7 +25,6 @@ export function ConfirmDialog({
   description,
   confirmLabel = 'Confirm',
   cancelLabel = 'Cancel',
-  confirmVariant = 'default',
   onOpenChange,
   onConfirm,
 }: ConfirmDialogProps) {
@@ -41,8 +40,8 @@ export function ConfirmDialog({
             {cancelLabel}
           </Button>
           <Button
-            variant={confirmVariant}
-            className="bg-black text-white hover:bg-black/90"
+            variant="destructive"
+            className="bg-black text-black hover:bg-black/90"
             onClick={() => {
               onConfirm();
               onOpenChange(false);

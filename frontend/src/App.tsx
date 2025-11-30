@@ -1,6 +1,6 @@
 import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { RefreshCw } from 'lucide-react';
+import { RefreshCw, LayoutGrid, Table } from 'lucide-react';
 import { FileSwitcher } from './components/sidebar/FileSwitcher';
 import MainPage from '@/pages/MainPage';
 import ProductPage from '@/pages/ProductPage';
@@ -12,6 +12,8 @@ function AppShell() {
   const hasData = Array.isArray(groups) && groups.length > 0;
   const loading = useProductsStore((s) => s.loading);
   const fetchGroups = useProductsStore((s) => s.fetchGroups);
+  const viewMode = useProductsStore((s) => s.viewMode);
+  const setViewMode = useProductsStore((s) => s.setViewMode);
 
   return (
     <div className="min-h-svh w-full flex flex-col">
@@ -22,6 +24,19 @@ function AppShell() {
             Каталог
           </Link>
           <div className="ml-auto flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setViewMode(viewMode === 'cards' ? 'table' : 'cards')}
+              className="flex items-center gap-2 text-black"
+              title={viewMode === 'cards' ? 'Таблица' : 'Карточки'}
+            >
+              {viewMode === 'cards' ? (
+                <Table className="h-4 w-4" />
+              ) : (
+                <LayoutGrid className="h-4 w-4" />
+              )}
+            </Button>
             <Button
               variant="outline"
               size="sm"

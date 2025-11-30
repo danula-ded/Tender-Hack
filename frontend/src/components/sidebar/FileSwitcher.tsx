@@ -39,9 +39,11 @@ export function FileSwitcher() {
 
   const onUploadClick = () => fileInputRef.current?.click();
   const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    await upload(file);
+    const files = Array.from(e.target.files ?? []);
+    if (files.length === 0) return;
+    for (const f of files) {
+      await upload(f);
+    }
     // store.upload уже обновит список групп на успех
     e.target.value = '';
   };
@@ -50,7 +52,11 @@ export function FileSwitcher() {
     <div className="p-2">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="sm" className="flex items-center gap-2 text-black">
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-2 text-black focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none"
+          >
             <div className="grid text-left text-sm leading-tight">
               <span className="truncate font-medium">Файлы</span>
               <span className="truncate text-xs opacity-70">Управление данными</span>
@@ -67,18 +73,27 @@ export function FileSwitcher() {
           <DropdownMenuLabel className="text-xs text-muted-foreground">
             Действия
           </DropdownMenuLabel>
-          <DropdownMenuItem className="gap-2 p-2" onClick={onUploadClick} disabled={uploading}>
+          <DropdownMenuItem
+            className="gap-2 p-2 focus:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
+            onClick={onUploadClick}
+            disabled={uploading}
+          >
             <UploadIcon className="size-4" />
             {uploading ? 'Загрузка…' : 'Загрузить Excel (.xlsx)'}
             <input
               ref={fileInputRef}
               type="file"
               accept=".xlsx,.xls"
+              multiple
               className="hidden"
               onChange={onFileChange}
             />
           </DropdownMenuItem>
-          <DropdownMenuItem className="gap-2 p-2" onClick={onDownload} disabled={downloading}>
+          <DropdownMenuItem
+            className="gap-2 p-2 focus:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
+            onClick={onDownload}
+            disabled={downloading}
+          >
             <Download className="size-4" />
             {downloading ? 'Загрузка…' : 'Скачать агрегированные данные'}
           </DropdownMenuItem>

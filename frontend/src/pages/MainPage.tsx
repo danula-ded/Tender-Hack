@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { FileDrop } from '@/components/file/FileDrop';
 import { ProductList } from '@/components/product/ProductList';
+import { ProductTable } from '@/components/product/ProductTable';
 import { SearchInput } from '@/components/product/SearchInput';
 import { Button } from '@/components/ui/button';
 import { useProductsStore } from '@/hooks/use-products-store';
@@ -11,6 +12,7 @@ export default function MainPage() {
     const loading = useProductsStore((s) => s.loading);
     const fetchGroups = useProductsStore((s) => s.fetchGroups);
     const reaggregate = useProductsStore((s) => s.reaggregate);
+    const viewMode = useProductsStore((s) => s.viewMode);
     const [strictness, setStrictness] = React.useState(70);
 
     React.useEffect(() => {
@@ -75,8 +77,8 @@ export default function MainPage() {
                 <SearchInput />
             </div>
 
-            {/* Список товаров */}
-            <ProductList />
+            {/* Представление */}
+            {viewMode === 'table' ? <ProductTable /> : <ProductList />}
         </div>
     );
 }

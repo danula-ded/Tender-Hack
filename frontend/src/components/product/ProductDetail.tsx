@@ -45,8 +45,9 @@ export function ProductDetail({ groupId }: { groupId: string }) {
       setVariants(list);
       const v = list.find((x) => x.id === cardParam) || list[0];
       if (v && v.id !== cardParam) {
-        params.set('card', v.id);
-        setParams(params, { replace: true });
+        const sp = new URLSearchParams(params);
+        sp.set('card', v.id);
+        setParams(sp, { replace: true });
       }
       setSelected(v ?? null);
       setFields(
@@ -91,7 +92,7 @@ export function ProductDetail({ groupId }: { groupId: string }) {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div className="text-xs opacity-60">Группа #{groupId}</div>
-          <h2 className="text-xl font-semibold text-black">{title}</h2>
+          <h2 className="text-xl font-semibold text-black">{selected?.name || title}</h2>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" className="text-black" onClick={() => setDeleteOpen(true)}>
@@ -113,8 +114,17 @@ export function ProductDetail({ groupId }: { groupId: string }) {
             className="w-full rounded-md border px-3 py-2 text-sm"
             value={selected.id}
             onChange={(e) => {
-              params.set('card', e.target.value);
-              setParams(params, { replace: true });
+              const nextId = e.target.value;
+              const next = variants.find((x) => x.id === nextId) || null;
+              if (next) {
+                setSelected(next);
+                setFields(
+                  Object.entries(next.attributes).map(([k, val]) => [k, String(val)] as [string, string]),
+                );
+              }
+              const sp = new URLSearchParams(params);
+              sp.set('card', nextId);
+              setParams(sp, { replace: true });
             }}
           >
             {variants.map((v) => (
@@ -131,8 +141,13 @@ export function ProductDetail({ groupId }: { groupId: string }) {
                   key={v.id}
                   className={`h-14 w-14 flex-shrink-0 rounded border ${v.id === selected.id ? 'border-black' : 'border-gray-200'}`}
                   onClick={() => {
-                    params.set('card', v.id);
-                    setParams(params, { replace: true });
+                    setSelected(v);
+                    setFields(
+                      Object.entries(v.attributes).map(([k, val]) => [k, String(val)] as [string, string]),
+                    );
+                    const sp = new URLSearchParams(params);
+                    sp.set('card', v.id);
+                    setParams(sp, { replace: true });
                   }}
                   title={v.name || v.id}
                 >
@@ -163,10 +178,13 @@ export function ProductDetail({ groupId }: { groupId: string }) {
                     imageUrl: p.image_url,
                   };
                   setVariants((arr) => [...arr, newVar]);
-                  params.set('card', newVar.id);
-                  setParams(params, { replace: true });
+                  const sp = new URLSearchParams(params);
+                  sp.set('card', newVar.id);
+                  setParams(sp, { replace: true });
                   setSelected(newVar);
-                  setFields([]);
+                  setFields(
+                    Object.entries(newVar.attributes).map(([k, val]) => [k, String(val)] as [string, string]),
+                  );
                 }
               })();
             }}
@@ -239,15 +257,19 @@ export function ProductDetail({ groupId }: { groupId: string }) {
         title="Удалить вариант?"
         description="Действие необратимо."
         onConfirm={async () => {
-          await deleteVariant(groupId, selected.id);
-          const rest = variants.filter((v) => v.id !== selected.id);
+          const deletingId = selected.id;
+          await deleteVariant(groupId, deletingId);
+          const rest = variants.filter((v) => v.id !== deletingId);
           setVariants(rest);
           const next = rest[0] ?? null;
           if (next) {
             setSelected(next);
-            setFields(Object.entries(next.attributes).map(([k, val]) => [k, String(val)] as [string, string]));
-            params.set('card', next.id);
-            setParams(params, { replace: true });
+            setFields(
+              Object.entries(next.attributes).map(([k, val]) => [k, String(val)] as [string, string]),
+            );
+            const sp = new URLSearchParams(params);
+            sp.set('card', next.id);
+            setParams(sp, { replace: true });
           } else {
             navigate('/');
           }
